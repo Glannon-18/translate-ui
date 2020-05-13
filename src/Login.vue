@@ -8,14 +8,14 @@
                 <div class="form">
                     <el-form :model="form">
                         <el-form-item>
-                            <el-input prefix-icon="el-icon-user" v-model="form.username"></el-input>
+                            <el-input prefix-icon="el-icon-user" size="medium" placeholder="请输入用户名" v-model="form.username"></el-input>
                         </el-form-item>
                         <el-form-item>
-                            <el-input type="password" prefix-icon="el-icon-lock" v-model="form.password"
+                            <el-input type="password" prefix-icon="el-icon-lock" size="medium" placeholder="请输入密码" v-model="form.password"
                                       show-password></el-input>
                         </el-form-item>
                         <el-form-item>
-                            <el-button type="primary" size="medium" style="width: 100%">登陆</el-button>
+                            <el-button type="primary" size="medium" style="width: 100%" @click="login">登陆</el-button>
                         </el-form-item>
 
                     </el-form>
@@ -43,6 +43,10 @@
         methods: {
             change() {
                 console.log(111)
+            }
+            ,
+            login(){
+                this.$router.push("/home")
             }
         },
         computed: {

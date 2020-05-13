@@ -36,6 +36,7 @@ import {
     Header,
     DropdownMenu,
     DropdownItem,
+    Avatar,
     Aside,
     Main,
     MenuItem,
@@ -96,6 +97,7 @@ Vue.use(Icon);
 Vue.use(Select);
 Vue.use(Form);
 Vue.use(Tag);
+Vue.use(Avatar)
 Vue.prototype.$alert = MessageBox.alert
 Vue.prototype.$confirm = MessageBox.confirm
 
