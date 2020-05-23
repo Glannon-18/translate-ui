@@ -19,7 +19,7 @@
                 </a>
                 <div style="margin-left: 10px"><a href="#" style="color: white;">admin</a></div>
                 <div style="margin-left: 10px"><a href="#"><i class="el-icon-switch-button"
-                                                              style="font-size: 30px"></i> </a></div>
+                                                              style="font-size: 18px"></i> </a></div>
             </div>
         </div>
 
