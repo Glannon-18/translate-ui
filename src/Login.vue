@@ -17,7 +17,6 @@
                         <el-form-item>
                             <el-button type="primary" size="medium" style="width: 100%" @click="login">登陆</el-button>
                         </el-form-item>
-
                     </el-form>
                 </div>
 
@@ -46,7 +45,7 @@
             }
             ,
             login(){
-                this.$router.push("/home")
+                this.$router.push("/content/home")
             }
         },
         computed: {

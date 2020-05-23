@@ -1,24 +1,15 @@
 <template>
-
     <el-container>
-        首页
+        快速翻译
     </el-container>
-
-
 </template>
 
 <script>
-
-
     export default {
-        name: "Home",
-
-
+        name: "Fast_Translate"
     }
 </script>
 
 <style scoped>
-
-
 
 </style>

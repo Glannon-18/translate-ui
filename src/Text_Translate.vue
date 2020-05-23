@@ -1,24 +1,15 @@
 <template>
-
     <el-container>
-        首页
+        文本翻译
     </el-container>
-
-
 </template>
 
 <script>
-
-
     export default {
-        name: "Home",
-
-
+        name: "Text_Translate"
     }
 </script>
 
 <style scoped>
-
-
 
 </style>

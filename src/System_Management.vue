@@ -1,24 +1,16 @@
 <template>
-
     <el-container>
-        首页
+        系统管理
     </el-container>
-
-
+    
 </template>
 
 <script>
-
-
     export default {
-        name: "Home",
-
-
+        name: "System_Management"
     }
 </script>
 
 <style scoped>
-
-
 
 </style>

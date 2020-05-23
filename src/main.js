@@ -102,6 +102,18 @@ Vue.prototype.$alert = MessageBox.alert
 Vue.prototype.$confirm = MessageBox.confirm
 
 
+import {postRequest} from "./utils/api";
+import {postKeyValueRequest} from "./utils/api";
+import {putRequest} from "./utils/api";
+import {deleteRequest} from "./utils/api";
+import {getRequest} from "./utils/api";
+
+Vue.prototype.postRequest = postRequest;
+Vue.prototype.postKeyValueRequest = postKeyValueRequest;
+Vue.prototype.putRequest = putRequest;
+Vue.prototype.deleteRequest = deleteRequest;
+Vue.prototype.getRequest = getRequest;
+
 new Vue({
     router,
     render: h => h(App),
