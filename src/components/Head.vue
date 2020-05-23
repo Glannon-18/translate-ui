@@ -5,11 +5,11 @@
         </div>
         <div style="display: flex;justify-content: center;align-items: center">
             <el-menu :default-active="activeIndex" mode="horizontal" background-color="#409eff"
-                     text-color="#fff">
-                <el-menu-item index="1">首页</el-menu-item>
-                <el-menu-item index="2">快速翻译</el-menu-item>
-                <el-menu-item index="3">文本翻译</el-menu-item>
-                <el-menu-item index="4">系统管理</el-menu-item>
+                     text-color="#fff" router>
+                <el-menu-item index='/content/home'>首页</el-menu-item>
+                <el-menu-item index='/content/fast_translate'>快速翻译</el-menu-item>
+                <el-menu-item index='/content/text_translate'>文本翻译</el-menu-item>
+                <el-menu-item index='/content/system_sanagement'>系统管理</el-menu-item>
             </el-menu>
             <div class="face" style="display: inherit;align-items: inherit">
                 <a href="#">
@@ -29,9 +29,10 @@
 <script>
     export default {
         name: "Head",
+
         data() {
             return {
-                activeIndex: "1"
+                activeIndex: "/content/home"
             }
         }
     }

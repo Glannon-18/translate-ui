@@ -16,6 +16,9 @@
         name: "Content",
         components: {
             Head
+        },
+        created(){
+            this.$router.push("/content/home")
         }
     }
 </script>
