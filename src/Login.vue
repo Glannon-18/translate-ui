@@ -45,7 +45,7 @@
             }
             ,
             login(){
-                this.$router.push("/content/home")
+                this.$router.push("/content/fast_translate")
             }
         },
         computed: {
