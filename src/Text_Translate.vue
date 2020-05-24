@@ -6,26 +6,15 @@
                     <div style="font-size: 18px"><i class="el-icon-timer"></i> 历史任务</div>
                     <div>
                         <el-button-group>
-                            <el-button type="primary">快速翻译</el-button>
-                            <el-button type="primary">文本翻译</el-button>
+                            <el-button type="primary" @click="go('/content/text_translate/fast')">快速翻译</el-button>
+                            <el-button type="primary" @click="go('/content/text_translate/text')">文本翻译</el-button>
                         </el-button-group>
                     </div>
                 </div>
-                <div style="margin-top: 10px">
-                    <el-input placeholder="请输入文档名称">
-                        <i slot="prefix" class="el-input__icon el-icon-search"></i>
-                    </el-input>
-                </div>
-
-                <div style="margin-top: 10px">
-                    <TaskList :taskData="task_data"></TaskList>
-                </div>
+                <TaskList :taskData="task_data"></TaskList>
             </el-aside>
             <el-main>
-                <div style="font-size: 18px"><span>{{currentTask.name}}</span></div>
-                <div>
-                    
-                </div>
+                <router-view></router-view>
             </el-main>
 
         </el-container>
@@ -35,11 +24,11 @@
 <script>
     import TaskList from "@/components/TaskList";
 
+
     export default {
         name: "Text_Translate",
         data() {
             return {
-
                 task_data: [{
                     date: "2010-02-05",
                     info: [{
@@ -82,13 +71,18 @@
                 currentTask: {
                     name: "当前展示的任务名称",
                     original: "你好，世界！",
-                    translation: "Hellow，word！",
+                    translation: "Hello，word！",
                 }
+            }
+        }, methods: {
+            go(url) {
+                this.$router.push(url)
             }
         },
         components: {
             TaskList
         }
+
     }
 </script>
 

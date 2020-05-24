@@ -29,7 +29,17 @@ export default new VueRouter({
                 },
                 {
                     path: "text_translate",
-                    component: () => import("../Text_Translate")
+                    component: () => import("../Text_Translate"),
+                    children: [{
+                        path: "fast",
+                        component:()=>import("../components/Fast_Task_Content")
+
+                    },{
+                        path: "text",
+                        component:()=>import("../components/Text_Task_Content")
+
+                    }
+                    ]
                 }
                 , {
                     path: "system_sanagement",
