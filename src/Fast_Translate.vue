@@ -12,6 +12,10 @@
                 </el-select>
                 <el-button type="primary">翻译</el-button>
             </el-col>
+            <el-col :span="12" style="display: flex;justify-content: flex-end">
+                <el-button type="primary" icon="el-icon-document-copy">复制</el-button>
+                <el-button type="primary" icon="el-icon-upload2">导出</el-button>
+            </el-col>
 
         </el-row>
         <el-row style="margin-top: 10px" :gutter="20">
@@ -44,39 +48,39 @@
             <el-col :span="4">历史记录</el-col>
             <el-col :span="20" style="display: flex;justify-content: flex-end">
                 <el-button type="primary" icon="el-icon-arrow-down" @click="show_more">隐藏</el-button>
-                <el-button type="primary" icon="el-icon-more" >查看更多</el-button>
+                <el-button type="primary" icon="el-icon-more">查看更多</el-button>
             </el-col>
         </el-row>
         <transition name="el-zoom-in-top">
-        <el-row style="margin-top: 10px" v-show="history_show">
-            <el-col :span="24">
-                <el-table
-                        :data="history"
-                >
-                    <el-table-column
-                            prop="name"
-                            label="任务名称"
-                            width="120">
-                    </el-table-column>
-                    <el-table-column
-                            prop="original"
-                            label="原文"
+            <el-row style="margin-top: 10px" v-show="history_show">
+                <el-col :span="24">
+                    <el-table
+                            :data="history"
                     >
-                    </el-table-column>
-                    <el-table-column
-                            prop="translation"
-                            label="译文"
-                    >
-                    </el-table-column>
-                    <el-table-column
-                            prop="original_language"
-                            label="原文语种"
-                            width="120">
-                    </el-table-column>
-                </el-table>
-            </el-col>
+                        <el-table-column
+                                prop="name"
+                                label="任务名称"
+                                width="120">
+                        </el-table-column>
+                        <el-table-column
+                                prop="original"
+                                label="原文"
+                        >
+                        </el-table-column>
+                        <el-table-column
+                                prop="translation"
+                                label="译文"
+                        >
+                        </el-table-column>
+                        <el-table-column
+                                prop="original_language"
+                                label="原文语种"
+                                width="120">
+                        </el-table-column>
+                    </el-table>
+                </el-col>
 
-        </el-row>
+            </el-row>
         </transition>
     </div>
 </template>
