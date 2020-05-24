@@ -6,6 +6,7 @@ Vue.config.productionTip = false
 
 import {
     Button,
+    ButtonGroup,
     Input,
     Table,
     TableColumn,
@@ -97,7 +98,8 @@ Vue.use(Icon);
 Vue.use(Select);
 Vue.use(Form);
 Vue.use(Tag);
-Vue.use(Avatar)
+Vue.use(Avatar);
+Vue.use(ButtonGroup)
 Vue.prototype.$alert = MessageBox.alert
 Vue.prototype.$confirm = MessageBox.confirm
 

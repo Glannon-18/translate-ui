@@ -17,7 +17,7 @@
         components: {
             Head
         },
-        created(){
+        created() {
             this.$router.push("/content/home")
         }
     }
