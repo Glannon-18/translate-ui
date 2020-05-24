@@ -32,18 +32,27 @@ export default new VueRouter({
                     component: () => import("../Text_Translate"),
                     children: [{
                         path: "fast",
-                        component:()=>import("../components/Fast_Task_Content")
+                        component: () => import("../components/Fast_Task_Content")
 
-                    },{
+                    }, {
                         path: "text",
-                        component:()=>import("../components/Text_Task_Content")
+                        component: () => import("../components/Text_Task_Content")
 
                     }
                     ]
                 }
                 , {
                     path: "system_sanagement",
-                    component: () => import("../System_Management")
+                    component: () => import("../System_Management"),
+                    children: [
+                        {
+                            path: "lib",
+                            component: () => import("../components/Lib")
+                        }, {
+                            path: "user",
+                            component: () => import("../components/User")
+                        }
+                    ]
                 }
             ]
         }
