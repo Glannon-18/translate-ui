@@ -42,7 +42,7 @@ export default new VueRouter({
                     ]
                 }
                 , {
-                    path: "system_sanagement",
+                    path: "system_management",
                     component: () => import("../System_Management"),
                     children: [
                         {

@@ -9,7 +9,7 @@
                 <el-menu-item index='/content/home'>首页</el-menu-item>
                 <el-menu-item index='/content/fast_translate'>快速翻译</el-menu-item>
                 <el-menu-item index='/content/text_translate'>文本翻译</el-menu-item>
-                <el-menu-item index='/content/system_sanagement'>系统管理</el-menu-item>
+                <el-menu-item index='/content/system_management'>系统管理</el-menu-item>
             </el-menu>
             <div class="face" style="display: inherit;align-items: inherit">
                 <a href="#">
