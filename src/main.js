@@ -22,6 +22,7 @@ import {
     Badge,
     Loading,
     MessageBox,
+    Message,
     Menu,
     Tabs,
     TabPane,
@@ -102,6 +103,7 @@ Vue.use(Avatar);
 Vue.use(ButtonGroup)
 Vue.prototype.$alert = MessageBox.alert
 Vue.prototype.$confirm = MessageBox.confirm
+Vue.prototype.$message = Message
 
 
 import {postRequest} from "./utils/api";

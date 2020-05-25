@@ -13,13 +13,12 @@
             </el-menu>
             <div class="face" style="display: inherit;align-items: inherit">
                 <a href="#">
-                    <!--                            todo 把头像和用户名提取到vuex管理-->
                     <el-avatar shape="circle" size="large"
                                src="https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png"></el-avatar>
                 </a>
-                <div style="margin-left: 10px"><a href="#" style="color: white;">admin</a></div>
-                <div style="margin-left: 10px"><a href="#"><i class="el-icon-switch-button"
-                                                              style="font-size: 18px"></i> </a></div>
+                <div style="margin-left: 10px"><a href="#" style="color: white;">{{$store.state.currentUser.name}}</a></div>
+                <div style="margin-left: 10px"><a href="#" @click="logout"><i class="el-icon-switch-button"
+                                                                              style="font-size: 18px"></i> </a></div>
             </div>
         </div>
 
@@ -27,6 +26,9 @@
 </template>
 
 <script>
+
+    import {mapMutations} from 'vuex'
+
     export default {
         name: "Head",
 
@@ -34,7 +36,21 @@
             return {
                 activeIndex: "/content/home"
             }
+        },
+        methods: {
+            logout() {
+                console.log("logout")
+                this.getRequest("/logout").then(response => {
+                    if (response.data.status == 200) {
+                        this.clearLogout()
+                        this.$router.replace("/")
+                    }
+                })
+            },
+            ...mapMutations(["clearLogout"])
+
         }
+
     }
 </script>
 

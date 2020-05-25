@@ -6,9 +6,23 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
     state: {
+        // 把头像和用户名提取到vuex管理
         currentUser: {}
     },
-    mutations: {},
+    getters: {},
+    mutations: {
+
+        recordLogin(state, user) {
+            console.log("recordLogin调用")
+            state.currentUser = user
+            console.log(this.state.currentUser)
+        },
+
+        clearLogout(state) {
+            state.currentUser = {}
+        }
+
+    },
     actions: {}
 
 })

@@ -31,8 +31,8 @@
         },
 
         props: {
-            "taskId":{
-                type:Number
+            "taskId": {
+                type: Number
             },
 
         },
