@@ -2,7 +2,7 @@
     <div class="ft">
         <el-row>
             <el-col :span="12" style="display: flex;justify-content: space-between">
-                <el-select v-model="language" placeholder="请选择原文语言" @change="logChange">
+                <el-select v-model="language_ori" placeholder="请选择原文语言" @change="logChange">
                     <el-option
                             v-for="item in options"
                             :key="item.value"
@@ -10,7 +10,7 @@
                             :value="item.value">
                     </el-option>
                 </el-select>
-                <el-button type="primary">翻译</el-button>
+                <el-button type="primary" @click="translate">翻译</el-button>
             </el-col>
             <el-col :span="12" style="display: flex;justify-content: flex-end">
                 <el-button type="primary" icon="el-icon-document-copy">复制</el-button>
@@ -100,7 +100,7 @@
                     value: 'th',
                     label: '泰语'
                 }],
-                language: '',
+                language_ori: '',
                 original: '',
                 translation: '',
                 history_show: false,
@@ -143,6 +143,42 @@
             show_more() {
                 this.history_show = !this.history_show
                 // console.log(event.target)
+
+            }
+            ,
+            translate() {
+                if(this.language_ori.trim()==''||this.original.trim()==''){
+
+                    this.$message("请选择语言并且输入原文")
+                    return;
+
+                }
+                new Promise((resolve) => {
+
+                    // todo模拟1.5秒后得到翻译结果
+                    setTimeout(() => {
+                            resolve("已经得到翻译结果")
+                        }
+                        , 1500)
+
+                }).then(res => {
+                    this.translation = res
+                }).then(
+                    this.postRequest('/fast_task/', {
+                        original_text: this.original,
+                        translate_text: this.translation,
+                        original_language: this.language_ori,
+                        /**
+                         * 都翻译成中文
+                         */
+                        translate_language: 'zh',
+                    })
+                ).then(reps => {
+                    console.log(reps.data)
+                })
+
+
+                // console.log(this.original+this.translation)
 
             }
         }
