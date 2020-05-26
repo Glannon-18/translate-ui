@@ -60,7 +60,7 @@
                         }).then(response => {
                             if (response) {
                                 if (response.data.status == 500) {
-                                    this.$message(response.data.msg)
+                                    this.$message.error(response.data.msg)
                                 } else {
                                     this.recordLogin(response.data.obj)
                                     this.$router.replace("/content")
