@@ -11,7 +11,7 @@
                         </el-button-group>
                     </div>
                 </div>
-                <TaskList :taskData="task_data"></TaskList>
+                <TaskList :taskData.sync="task_data" ></TaskList>
             </el-aside>
             <el-main>
                 <router-view></router-view>
@@ -53,10 +53,11 @@
             }
         }, methods: {
             getFast() {
-                this.getRequest("/fast_task/listByDate",).then(resp=>{
-                    this.task_data=resp.data.obj
+                this.getRequest("/fast_task/listByDate", {name: ""}).then(resp => {
+                    this.task_data = resp.data.obj
                 })
             },
+
             getText() {
 
             }
