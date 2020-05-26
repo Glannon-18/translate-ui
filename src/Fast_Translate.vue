@@ -2,7 +2,7 @@
     <div class="ft">
         <el-row>
             <el-col :span="12" style="display: flex;justify-content: space-between">
-                <el-select v-model="language_ori" placeholder="请选择原文语言" @change="logChange">
+                <el-select v-model="language_ori" placeholder="请选择原文语言">
                     <el-option
                             v-for="item in options"
                             :key="item.value"
@@ -10,11 +10,11 @@
                             :value="item.value">
                     </el-option>
                 </el-select>
-                <el-button type="primary" @click="translate">翻译</el-button>
+                <el-button type="primary" @click="translate" :loading="translate_loading">翻译</el-button>
             </el-col>
             <el-col :span="12" style="display: flex;justify-content: flex-end">
                 <el-button type="primary" icon="el-icon-document-copy">复制</el-button>
-                <el-button type="primary" icon="el-icon-upload2">导出</el-button>
+                <el-button type="primary" icon="el-icon-upload2" @click="export_txt">导出</el-button>
             </el-col>
 
         </el-row>
@@ -37,7 +37,7 @@
                           v-model="translation"
                           maxlength="3000"
                           show-word-limit
-                          resize="none"
+                          resize="none" readonly
                 >
                 </el-input>
             </el-col>
@@ -86,13 +86,14 @@
 </template>
 
 <script>
+
+    import axios from "axios"
+
     export default {
         name: "Fast_Translate",
-
-
         created() {
             this.getRequest("/fast_task/",).then(resp => {
-                this.history = resp.data.obj
+                this.history = this.language_mapZh(resp.data.obj)
             })
         },
         data() {
@@ -111,19 +112,33 @@
                 original: '',
                 translation: '',
                 history_show: false,
-                history: []
+                history: [],
+                translate_loading: false
             }
         }
         ,
         methods: {
-            logChange() {
-                console.log(this.language)
+            export_txt() {
+                if (this.translation.trim().length == 0) {
 
+                    this.$message.warning("没有文本可以下载!")
+                    return;
+                }
+                axios({
+                    method: 'post',
+                    url: '/fast_task/export',
+                    data: {
+                        translate: this.translation.trim(),
+                    },
+                    responseType: 'blob'
+                }).then(response => {
+                    this.download(response.data)
+                }).catch((error) => {
+                    console.log(error)
+                })
             },
             show_more() {
                 this.history_show = !this.history_show
-                // console.log(event.target)
-
             }
             ,
             translate() {
@@ -131,6 +146,7 @@
                     this.$message.warning("请选择语言并且输入原文")
                     return;
                 }
+                this.translate_loading = true
                 new Promise((resolve) => {
 
                     /**
@@ -156,18 +172,34 @@
                         translate_language: 'zh',
                     })
                 }).then(() => {
+                    this.translate_loading = false
                     /**
                      * 这里还有一个异步操作，翻译完成后在从数据库查询最新5条翻译记录，更新下面的历史记录
                      */
                     return this.getRequest("/fast_task/", {})
                 }).then(resp => {
-                    resp.data.obj.forEach(value => {
-                        value.original_language = this.$store.state.language[value.original_language]
-
-                    })
-                    this.history = resp.data.obj
+                    this.history = this.language_mapZh(resp.data.obj)
                 })
 
+            },
+            language_mapZh(obj) {
+                obj.forEach(value => {
+                    value.original_language = this.$store.state.language[value.original_language]
+                })
+                return obj
+            },
+            // 下载文件
+            download(data) {
+                if (!data) {
+                    return
+                }
+                let url = window.URL.createObjectURL(new Blob([data]))
+                let link = document.createElement('a')
+                link.style.display = 'none'
+                link.href = url
+                link.setAttribute('download', 'translation.txt')
+                document.body.appendChild(link)
+                link.click()
             }
         }
     }
