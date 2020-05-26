@@ -91,7 +91,7 @@
         data() {
             return {
                 options: [{
-                    value: 'zh',
+                    value: 'en',
                     label: '英文'
                 }, {
                     value: 'vi',
@@ -147,38 +147,34 @@
             }
             ,
             translate() {
-                if(this.language_ori.trim()==''||this.original.trim()==''){
-
+                if (this.language_ori.trim() == '' || this.original.trim() == '') {
                     this.$message("请选择语言并且输入原文")
                     return;
-
                 }
                 new Promise((resolve) => {
-
-                    // todo模拟1.5秒后得到翻译结果
+                    // todo 模拟1.5秒后得到翻译结果
                     setTimeout(() => {
-                            resolve("已经得到翻译结果")
-                        }
-                        , 1500)
+                        resolve("已经得到翻译结果")
+                    }, 1500)
 
-                }).then(res => {
-                    this.translation = res
-                }).then(
-                    this.postRequest('/fast_task/', {
+                }).then(data => {
+                    this.translation = data
+                    return new Promise(resolve => {
+                        resolve(this.translation)
+                    })
+                }).then(data => {
+                    return this.postRequest('/fast_task/', {
                         original_text: this.original,
-                        translate_text: this.translation,
+                        translate_text: data,
                         original_language: this.language_ori,
                         /**
                          * 都翻译成中文
                          */
                         translate_language: 'zh',
                     })
-                ).then(reps => {
-                    console.log(reps.data)
+                }).then(resp => {
+                    console.log(resp.data)
                 })
-
-
-                // console.log(this.original+this.translation)
 
             }
         }
