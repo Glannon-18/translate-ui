@@ -63,12 +63,12 @@
                                 width="120">
                         </el-table-column>
                         <el-table-column
-                                prop="original"
+                                prop="original_text"
                                 label="原文"
                         >
                         </el-table-column>
                         <el-table-column
-                                prop="translation"
+                                prop="translate_text"
                                 label="译文"
                         >
                         </el-table-column>
@@ -88,6 +88,13 @@
 <script>
     export default {
         name: "Fast_Translate",
+
+
+        created() {
+            this.getRequest("/fast_task/",).then(resp => {
+                this.history = resp.data.obj
+            })
+        },
         data() {
             return {
                 options: [{
@@ -98,40 +105,13 @@
                     label: '越南文'
                 }, {
                     value: 'th',
-                    label: '泰语'
+                    label: '泰文'
                 }],
                 language_ori: '',
                 original: '',
                 translation: '',
                 history_show: false,
-                history: [
-                    {
-                        name: "任务1",
-                        original: "大萨达所大多",
-                        translation: "sdsadasdasdsa",
-                        original_language: "英文"
-                    }, {
-                        name: "任务2",
-                        original: "大萨达所大多",
-                        translation: "sdsadasdasdsa",
-                        original_language: "英文"
-                    }, {
-                        name: "任务3",
-                        original: "大萨达所大多",
-                        translation: "sdsadasdasdsa",
-                        original_language: "英文"
-                    }, {
-                        name: "任务4",
-                        original: "大萨达所大多",
-                        translation: "sdsadasdasdsa",
-                        original_language: "英文"
-                    }, {
-                        name: "任务5",
-                        original: "大萨达所大多",
-                        translation: "sdsadasdasdsa",
-                        original_language: "英文"
-                    }
-                ]
+                history: []
             }
         }
         ,
@@ -148,11 +128,14 @@
             ,
             translate() {
                 if (this.language_ori.trim() == '' || this.original.trim() == '') {
-                    this.$message("请选择语言并且输入原文")
+                    this.$message.warning("请选择语言并且输入原文")
                     return;
                 }
                 new Promise((resolve) => {
-                    // todo 模拟1.5秒后得到翻译结果
+
+                    /**
+                     *  todo 没有翻译接口，模拟一下
+                     */
                     setTimeout(() => {
                         resolve("已经得到翻译结果")
                     }, 1500)
@@ -172,8 +155,17 @@
                          */
                         translate_language: 'zh',
                     })
+                }).then(() => {
+                    /**
+                     * 这里还有一个异步操作，翻译完成后在从数据库查询最新5条翻译记录，更新下面的历史记录
+                     */
+                    return this.getRequest("/fast_task/", {})
                 }).then(resp => {
-                    console.log(resp.data)
+                    resp.data.obj.forEach(value => {
+                        value.original_language = this.$store.state.language[value.original_language]
+
+                    })
+                    this.history = resp.data.obj
                 })
 
             }
