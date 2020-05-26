@@ -6,10 +6,10 @@
             </el-input>
         </div>
         <div style="margin-top: 10px">
-            <el-menu>
-                <el-submenu v-for="o in taskData" :key="o.date" :index="o.date">
-                    <template slot="title">{{o.date}}</template>
-                    <el-menu-item v-for="i in o.info" :key="i.id">{{i.name}}</el-menu-item>
+            <el-menu unique-opened>
+                <el-submenu v-for="(value,key) in taskData" :key="key" :index="key">
+                    <template slot="title">{{key}}</template>
+                    <el-menu-item v-for="i in value" :key="i.id">{{i.name}}</el-menu-item>
                 </el-submenu>
             </el-menu>
         </div>
