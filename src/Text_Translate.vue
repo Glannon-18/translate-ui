@@ -29,43 +29,20 @@
         name: "Text_Translate",
         data() {
             return {
-                task_data: [{
-                    date: "2010-02-05",
-                    info: [{
-                        id: 1,
-                        name: "asddad5"
-                    }, {
-                        id: 2,
-                        name: "dsada5"
-                    }, {
-                        id: 3,
-                        name: "asdasdasdddad5"
-                    }]
-                }, {
-                    date: "2010-02-06",
-                    info: [{
-                        id: 4,
-                        name: "asddad6"
-                    }, {
-                        id: 5,
-                        name: "dsada6"
-                    }, {
-                        id: 6,
-                        name: "asdasdasdddad6"
-                    }]
-                }, {
-                    date: "2010-02-07",
-                    info: [{
-                        id: 7,
-                        name: "asddad7"
-                    }, {
-                        id: 8,
-                        name: "dsada7"
-                    }, {
-                        id: 9,
-                        name: "asdasdasdddad7"
-                    }]
-                }
+                task_data: [
+                    //     {
+                    //     date: "2010-02-05",
+                    //     info: [{
+                    //         id: 1,
+                    //         name: "asddad5"
+                    //     }, {
+                    //         id: 2,
+                    //         name: "dsada5"
+                    //     }, {
+                    //         id: 3,
+                    //         name: "asdasdasdddad5"
+                    //     }]
+                    // }
 
                 ],
                 currentTask: {
