@@ -7,7 +7,13 @@ Vue.use(Vuex)
 export default new Vuex.Store({
     state: {
         // 把头像和用户名提取到vuex管理
-        currentUser: {}
+        currentUser: {},
+        language: {
+            "zh": "中文",
+            "en": "英文",
+            "vi": "越南文",
+            "th": "泰文",
+        }
     },
     getters: {},
     mutations: {
