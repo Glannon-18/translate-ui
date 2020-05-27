@@ -39,7 +39,6 @@
         },
         methods: {
             logout() {
-                console.log("logout")
                 this.getRequest("/logout").then(response => {
                     if (response.data.status == 200) {
                         this.clearLogout()
