@@ -31,11 +31,11 @@ export default new VueRouter({
                     path: "text_translate",
                     component: () => import("../Text_Translate"),
                     children: [{
-                        path: "fast",
+                        path: "fast/:id",
                         component: () => import("../components/Fast_Task_Content")
 
                     }, {
-                        path: "text",
+                        path: "text/:id",
                         component: () => import("../components/Text_Task_Content")
 
                     }

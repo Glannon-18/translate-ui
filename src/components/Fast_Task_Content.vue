@@ -22,11 +22,12 @@
 
 <script>
     export default {
+
         data() {
             return {
-                name: "任务名称",
-                original: "22222",
-                translation: "5555555"
+                name: "",
+                original: "",
+                translation: ""
             }
         },
 
@@ -42,6 +43,25 @@
                 console.log(this.taskId)
 
             }
+            ,
+            queryById(id) {
+                this.getRequest('/fast_task/' + id).then(resp => {
+                    let {name, original_text, translate_text} = resp.data.obj
+                    this.name = name
+                    this.original = original_text
+                    this.translation = translate_text
+                })
+            }
+        },
+        created() {
+            let id = this.$route.params.id
+            this.queryById(id)
+        },
+
+        beforeRouteUpdate(to, from, next) {
+            let id = to.params.id
+            this.queryById(id)
+            next()
         }
     }
 </script>

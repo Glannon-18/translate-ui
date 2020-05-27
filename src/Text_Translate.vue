@@ -11,7 +11,9 @@
                         </el-button-group>
                     </div>
                 </div>
-                <TaskList :taskData.sync="task_data" ></TaskList>
+                <TaskList :taskData.sync="task_data" :data_type="dataType">
+                    <el-button type="primary" v-if="dataType=='text'" style="width: 100%">新建文本任务</el-button>
+                </TaskList>
             </el-aside>
             <el-main>
                 <router-view></router-view>
@@ -29,36 +31,19 @@
         name: "Text_Translate",
         data() {
             return {
-                task_data: [
-                    //     {
-                    //     date: "2010-02-05",
-                    //     info: [{
-                    //         id: 1,
-                    //         name: "asddad5"
-                    //     }, {
-                    //         id: 2,
-                    //         name: "dsada5"
-                    //     }, {
-                    //         id: 3,
-                    //         name: "asdasdasdddad5"
-                    //     }]
-                    // }
-
-                ],
-                currentTask: {
-                    name: "当前展示的任务名称",
-                    original: "你好，世界！",
-                    translation: "Hello，word！",
-                }
+                task_data: [],
+                dataType: ''
             }
         }, methods: {
             getFast() {
+                this.dataType = 'fast'
                 this.getRequest("/fast_task/listByDate", {name: ""}).then(resp => {
                     this.task_data = resp.data.obj
                 })
             },
 
             getText() {
+                this.dataType = 'text'
 
             }
             // <el-button type="primary" @click="go('/content/text_translate/fast')">快速翻译</el-button>

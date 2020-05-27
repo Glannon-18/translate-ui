@@ -6,13 +6,16 @@
             </el-input>
         </div>
         <div style="margin-top: 10px">
-            <el-menu>
+            <el-menu router>
                 <el-submenu v-for="(value,key) in taskData" :key="key" :index="key">
                     <template slot="title">{{key}}</template>
-                    <el-menu-item v-for="i in value" :key="i.id">{{i.name}}</el-menu-item>
+                    <el-menu-item v-for="i in value" :key="i.id" :index="'/content/text_translate/fast/'+i.id">
+                        {{i.name}}
+                    </el-menu-item>
                 </el-submenu>
             </el-menu>
         </div>
+        <slot></slot>
     </div>
 </template>
 
@@ -21,21 +24,38 @@
         name: "TaskList",
         data() {
             return {
-                searchWord: ""
+                searchWord: "",
             }
         },
-        props: ["taskData"],
+        props: ["taskData", "data_type"],
+        computed: {
+            getType() {
+                return this.data_type
+            }
+        },
         methods: {
             query() {
-                this.getRequest("/fast_task/listByDate", {name: this.searchWord})
-                    .then(resp => {
-                        let data = resp.data.obj
-                        this.modifyDate(data)
-                    })
+                this.type = this.data_type
+                if (this.getType == 'fast') {
+                    console.log(this.type)
+                    this.getRequest("/fast_task/listByDate", {name: this.searchWord})
+                        .then(resp => {
+                            let data = resp.data.obj
+                            this.modifyDate(data)
+                        })
+                }
+                // else if (this.type == 'text') {
+                //
+                // }
+
             },
             modifyDate(data) {
                 this.$emit("update:taskData", data)
-            }
+            },
+            // showDetail() {
+            //
+            //     this.$router.push("/content/text_translate/fast")
+            // }
         }
     }
 </script>
