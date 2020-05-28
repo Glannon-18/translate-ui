@@ -6,7 +6,7 @@
         </div>
         <div style="margin-top: 10px">
             <el-button type="primary" icon="el-icon-download">下载</el-button>
-            <el-button type="primary" icon="el-icon-delete">删除</el-button>
+            <el-button type="primary" icon="el-icon-delete" @click="deletAnnexe">删除</el-button>
         </div>
         <div style="margin-top: 10px">
             <el-table
@@ -21,7 +21,7 @@
                         width="55">
                 </el-table-column>
                 <el-table-column
-                        prop="docName"
+                        prop="name"
                         label="文档名称"
                 >
 
@@ -36,18 +36,11 @@
                         label="原文语种"
                 >
                 </el-table-column>
-                <el-table-column
-                        prop="hit"
-                        label="命中关键词"
-                >
-                </el-table-column>
             </el-table>
-
-            <el-pagination style="margin-top: 15px"
+            <el-pagination style="margin-top: 15px" :page-size="pageSize"
                            layout="prev, pager, next"
-                           :total="100">
+                           :total="total" @current-change="page">
             </el-pagination>
-
         </div>
 
 
@@ -56,79 +49,87 @@
 
 <script>
     export default {
+
+        created() {
+            let id = this.$route.params.id
+            this.query(id)
+        },
+
         name: "Text_Task_Content"
         ,
         data() {
             return {
-                name: "这是一个文本翻译任务",
-                tableData: [
-
-                    {
-                        id: 1,
-                        docName: "dasda",
-                        status: "处理成功"
-                        ,
-                        original_language: "英文"
-                        ,
-                        hit: "未命中"
-                    }, {
-                        id: 1,
-                        docName: "dasda",
-                        status: "处理成功"
-                        ,
-                        original_language: "英文"
-                        ,
-                        hit: "未命中"
-                    }, {
-                        id: 2,
-                        docName: "dasda",
-                        status: "处理成功"
-                        ,
-                        original_language: "英文"
-                        ,
-                        hit: "未命中"
-                    }, {
-                        id: 3,
-                        docName: "dasda",
-                        status: "处理成功"
-                        ,
-                        original_language: "英文"
-                        ,
-                        hit: "未命中"
-                    }, {
-                        id: 4,
-                        docName: "dasda",
-                        status: "处理成功"
-                        ,
-                        original_language: "英文"
-                        ,
-                        hit: "未命中"
-                    }, {
-                        id: 5,
-                        docName: "dasda",
-                        status: "处理成功"
-                        ,
-                        original_language: "英文"
-                        ,
-                        hit: "未命中"
-                    }
-                ],
+                name: "",
+                tableData: [],
+                total: 0,
+                pageSize: 0,
                 multipleSelection: [],
-
-
-                // 在 element ui 的 GitHub issue 中搜索了一下，发现 upload 组件确实不支持自动更新 fileList，
-                // 如果需要获取fileList，在回调函数里面获取。。。
-                fileList: [],
-
             }
         }
         ,
         methods: {
+            deletAnnexe() {
+                let ids = []
+                this.multipleSelection.forEach(m => {
+                    ids.push(m.id)
+                })
+                if (ids.length == 0) {
+                    this.$message.warning("请先选择附件！")
+                    return
+                }
+                console.log(ids)
+                this.deleteRequest("/annexe/", {
+                    ids: ids
+                }).then(resp => {
+                    if (resp.data.status == 200) {
+                        let id = this.$route.params.id
+                        this.query(id)
+                    }
+                })
+            },
             handleSelectionChange(val) {
                 this.multipleSelection = val;
-                console.log(this.multipleSelection)
+                // console.log(this.multipleSelection)
             },
+            query(id) {
+                this.getRequest("/annexe_task/" + id).then(resp => {
+                    this.name = resp.data.obj.name
+                    let atid = resp.data.obj.id
 
+                    return this.getRequest("/annexe/page", {
+                        currentPage: "1",
+                        atid: atid + ""
+                    })
+                }).then(resp => {
+                    this.total = resp.data.total
+                    this.pageSize = resp.data.pageSize
+                    // console.log(this.total,this.pageSize)
+                    resp.data.data.forEach(t => {
+                        t.original_language = this.$store.state.language[t.original_language]
+                        t.status = this.$store.state.annexe_status[t.status]
+                    })
+                    this.tableData = resp.data.data
+                })
+            },
+            page(val) {
+                let atid = this.$route.params.id
+                this.getRequest("/annexe/page", {
+                    currentPage: val,
+                    atid: atid + ""
+                }).then(resp => {
+                    resp.data.data.forEach(t => {
+                        t.original_language = this.$store.state.language[t.original_language]
+                        t.status = this.$store.state.annexe_status[t.status]
+                    })
+                    this.tableData = resp.data.data
+                })
+            }
+        }
+        ,
+        beforeRouteUpdate(to, from, next) {
+            let id = to.params.id
+            this.query(id)
+            next()
         }
     }
 </script>

@@ -13,13 +13,17 @@ export default new Vuex.Store({
             "en": "英文",
             "vi": "越南文",
             "th": "泰文",
+        },
+        annexe_status:{
+            0:"未完成",
+            1:"已完成"
         }
     },
     getters: {},
     mutations: {
 
         recordLogin(state, user) {
-            console.log("recordLogin调用")
+            // console.log("recordLogin调用")
             state.currentUser = user
             console.log(this.state.currentUser)
         },

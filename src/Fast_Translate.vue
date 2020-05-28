@@ -113,7 +113,7 @@
                 translation: '',
                 history_show: false,
                 history: [],
-                translate_loading: false
+                translate_loading: false,
             }
         }
         ,
@@ -173,9 +173,6 @@
                     })
                 }).then(() => {
                     this.translate_loading = false
-                    /**
-                     * 这里还有一个异步操作，翻译完成后在从数据库查询最新5条翻译记录，更新下面的历史记录
-                     */
                     return this.getRequest("/fast_task/", {})
                 }).then(resp => {
                     this.history = this.language_mapZh(resp.data.obj)
