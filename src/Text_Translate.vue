@@ -43,7 +43,9 @@
                                :on-success="success"
                                :on-remove="remove"
                                :limit="9"
-                               multiple>
+                               multiple
+                               ref="fileUpload"
+                    >
                         <el-button size="small" type="primary">点击上传</el-button>
                         <div slot="tip">只能上传txt格式文件</div>
                     </el-upload>
@@ -113,18 +115,21 @@
                             this.$message.error("请先上传文件")
                             return
                         }
-                        let fileList=[];
-                        this.returnPaths.forEach(r=>{
+                        let fileList = [];
+                        this.returnPaths.forEach(r => {
                             fileList.push(r.response.obj)
                         })
-
-
-                        this.postRequest("/annexe_task", {
+                        this.postRequest("/annexe_task/", {
                             name: this.form.name,
                             language: this.form.language,
                             filePaths: fileList
                         }).then(resp => {
-                            console.log(resp.data.obj)
+                            if (resp.data.status == 200) {
+                                this.$message.success("创建成功！")
+                                this.dialogFormVisible = false
+                                this.$refs.post_text_task.resetFields()
+                                this.$refs.fileUpload.clearFiles()
+                            }
                         })
                     }
 
