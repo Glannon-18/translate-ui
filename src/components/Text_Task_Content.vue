@@ -79,7 +79,7 @@
                 }
                 console.log(ids)
                 this.deleteRequest("/annexe/", {
-                    ids: ids
+                    ids: ids + ''
                 }).then(resp => {
                     if (resp.data.status == 200) {
                         let id = this.$route.params.id
