@@ -9,7 +9,7 @@
             <el-menu router>
                 <el-submenu v-for="(value,key) in taskData" :key="key" :index="key">
                     <template slot="title">{{key}}</template>
-                    <el-menu-item v-for="i in value" :key="i.id" :index="'/content/text_translate/fast/'+i.id">
+                    <el-menu-item v-for="i in value" :key="i.id" :index="'/content/text_translate/'+getType+'/'+i.id">
                         {{i.name}}
                     </el-menu-item>
                 </el-submenu>
@@ -35,7 +35,6 @@
         },
         methods: {
             query() {
-                this.type = this.data_type
                 if (this.getType == 'fast') {
                     this.getRequest("/fast_task/listByDate", {name: this.searchWord})
                         .then(resp => {
@@ -54,10 +53,6 @@
             modifyDate(data) {
                 this.$emit("update:taskData", data)
             },
-            // showDetail() {
-            //
-            //     this.$router.push("/content/text_translate/fast")
-            // }
         }
     }
 </script>
