@@ -12,7 +12,7 @@
                     </div>
                 </div>
                 <TaskList :taskData.sync="task_data" :data_type="dataType">
-                    <el-button type="primary" v-if="dataType=='text'" style="width: 100%">新建文本任务</el-button>
+                    <el-button type="primary" v-if="btnshow" style="width: 100%" @click="dialogFormVisible=true">新建文本任务</el-button>
                 </TaskList>
             </el-aside>
             <el-main>
@@ -20,6 +20,36 @@
             </el-main>
 
         </el-container>
+        <el-dialog title="新建文本任务" :visible.sync="dialogFormVisible" width="30%">
+            <el-form :model="form">
+                <el-form-item label="任务名称名称" :label-width="formLabelWidth">
+                    <el-input v-model="form.name" autocomplete="off"></el-input>
+                </el-form-item>
+                <el-form-item label="选择语种" :label-width="formLabelWidth">
+                    <el-select v-model="form.language" placeholder="请选择原文语种">
+                        <el-option label="中文" value="zh"></el-option>
+                        <el-option label="越南文" value="vi"></el-option>
+                        <el-option label="泰文" value="th"></el-option>
+                    </el-select>
+                </el-form-item>
+
+
+                <el-form-item label="文件上传" :label-width="formLabelWidth">
+                    <el-upload accept=".txt"
+                               name="multipartFile"
+                            action="/annexe_task/upload"
+                            :limit="9"
+                            multiple>
+                        <el-button size="small" type="primary">点击上传</el-button>
+                        <div slot="tip">只能上传txt格式文件</div>
+                    </el-upload>
+                </el-form-item>
+            </el-form>
+            <div slot="footer" class="dialog-footer">
+                <el-button @click="dialogFormVisible = false">取 消</el-button>
+                <el-button type="primary">确 定</el-button>
+            </div>
+        </el-dialog>
     </div>
 </template>
 
@@ -32,7 +62,14 @@
         data() {
             return {
                 task_data: [],
-                dataType: ''
+                dataType: '',
+                btnshow: false,
+                form: {
+                    name: "",
+                    language: "",
+                },
+                dialogFormVisible: false,
+                formLabelWidth: '120px'
             }
         }, methods: {
             getFast() {
@@ -40,15 +77,16 @@
                 this.getRequest("/fast_task/listByDate", {name: ""}).then(resp => {
                     this.task_data = resp.data.obj
                 })
+                this.btnshow = false
             },
 
             getText() {
                 this.dataType = 'text'
-
+                this.getRequest("/annexe_task/listByDate", {name: ""}).then(resp => {
+                    this.task_data = resp.data.obj
+                    this.btnshow = true
+                })
             }
-            // <el-button type="primary" @click="go('/content/text_translate/fast')">快速翻译</el-button>
-            // <el-button type="primary" @click="go('/content/text_translate/text')">文本翻译</el-button>
-
         },
         components: {
             TaskList

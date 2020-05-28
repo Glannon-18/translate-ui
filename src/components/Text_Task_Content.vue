@@ -52,37 +52,6 @@
         </div>
 
 
-        <el-dialog title="新建文本任务" :visible.sync="dialogFormVisible">
-            <el-form :model="form">
-                <el-form-item label="任务名称名称" :label-width="formLabelWidth">
-                    <el-input v-model="form.name" autocomplete="off"></el-input>
-                </el-form-item>
-                <el-form-item label="选择语种" :label-width="formLabelWidth">
-                    <el-select v-model="form.language" placeholder="请选择原文语种">
-                        <el-option label="中文" value="zh"></el-option>
-                        <el-option label="越南文" value="vi"></el-option>
-                        <el-option label="泰文" value="th"></el-option>
-                    </el-select>
-                </el-form-item>
-
-
-                <el-form-item label="文件上传" :label-width="formLabelWidth">
-                    <el-upload
-                            action=""
-                            :limit="3"
-                            :on-change="fileChange"
-                            :file-list="form.fileList" multiple
-                            :auto-upload="false">
-                        <el-button size="small" type="primary">点击上传</el-button>
-                        <div slot="tip">只能上传txt格式文件</div>
-                    </el-upload>
-                </el-form-item>
-            </el-form>
-            <div slot="footer" class="dialog-footer">
-                <el-button @click="dialogFormVisible = false">取 消</el-button>
-                <el-button type="primary">确 定</el-button>
-            </div>
-        </el-dialog>
     </div>
 </template>
 
@@ -146,17 +115,6 @@
                     }
                 ],
                 multipleSelection: [],
-                dialogFormVisible: false,
-
-                form: {
-                    name: "",
-                    language: "",
-
-                },
-                // 在 element ui 的 GitHub issue 中搜索了一下，发现 upload 组件确实不支持自动更新 fileList，
-                // 如果需要获取fileList，在回调函数里面获取。。。
-                fileList: [],
-                formLabelWidth: '120px'
             }
         }
         ,
@@ -168,14 +126,6 @@
             showAdd() {
                 this.dialogFormVisible = true
             },
-
-            fileChange(file, fileList) {
-                console.log('change')
-                console.log(file)
-                this.form.file = file.raw
-                console.log(this.form.file)
-                console.log(fileList)
-            }
         }
     }
 </script>

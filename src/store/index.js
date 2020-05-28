@@ -19,7 +19,7 @@ export default new Vuex.Store({
     mutations: {
 
         recordLogin(state, user) {
-            console.log("recordLogin调用")
+            // console.log("recordLogin调用")
             state.currentUser = user
             console.log(this.state.currentUser)
         },

@@ -37,16 +37,18 @@
             query() {
                 this.type = this.data_type
                 if (this.getType == 'fast') {
-                    console.log(this.type)
                     this.getRequest("/fast_task/listByDate", {name: this.searchWord})
                         .then(resp => {
                             let data = resp.data.obj
                             this.modifyDate(data)
                         })
+                } else if (this.type == 'text') {
+                    this.getRequest("/annexe_task/listByDate", {name: this.searchWord})
+                        .then(resp => {
+                            let data = resp.data.obj
+                            this.modifyDate(data)
+                        })
                 }
-                // else if (this.type == 'text') {
-                //
-                // }
 
             },
             modifyDate(data) {
