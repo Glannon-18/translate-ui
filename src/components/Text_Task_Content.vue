@@ -38,7 +38,7 @@
                 </el-table-column>
             </el-table>
             <el-pagination style="margin-top: 15px" :page-size="pageSize"
-                           layout="prev, pager, next"
+                           layout="prev, pager, next" :current-page.sync="currentPage"
                            :total="total" @current-change="page">
             </el-pagination>
         </div>
@@ -53,6 +53,7 @@
         created() {
             let id = this.$route.params.id
             this.query(id)
+            this.queryAnnexe(id, "1")
         },
 
         name: "Text_Task_Content"
@@ -63,6 +64,7 @@
                 tableData: [],
                 total: 0,
                 pageSize: 0,
+                currentPage: 0,
                 multipleSelection: [],
             }
         }
@@ -77,7 +79,6 @@
                     this.$message.warning("请先选择附件！")
                     return
                 }
-                console.log(ids)
                 this.deleteRequest("/annexe/", {
                     ids: ids + ''
                 }).then(resp => {
@@ -94,13 +95,14 @@
             query(id) {
                 this.getRequest("/annexe_task/" + id).then(resp => {
                     this.name = resp.data.obj.name
-                    let atid = resp.data.obj.id
-
-                    return this.getRequest("/annexe/page", {
-                        currentPage: "1",
-                        atid: atid + ""
-                    })
+                })
+            },
+            queryAnnexe(atid, currentPage) {
+                this.getRequest("/annexe/page", {
+                    currentPage: currentPage  ,
+                    atid: atid + ""
                 }).then(resp => {
+                    this.currentPage = parseInt(currentPage)
                     this.total = resp.data.total
                     this.pageSize = resp.data.pageSize
                     // console.log(this.total,this.pageSize)
@@ -110,25 +112,20 @@
                     })
                     this.tableData = resp.data.data
                 })
+
+
             },
             page(val) {
-                let atid = this.$route.params.id
-                this.getRequest("/annexe/page", {
-                    currentPage: val,
-                    atid: atid + ""
-                }).then(resp => {
-                    resp.data.data.forEach(t => {
-                        t.original_language = this.$store.state.language[t.original_language]
-                        t.status = this.$store.state.annexe_status[t.status]
-                    })
-                    this.tableData = resp.data.data
-                })
+                let id = this.$route.params.id
+                this.queryAnnexe(id, val)
             }
+
         }
         ,
         beforeRouteUpdate(to, from, next) {
             let id = to.params.id
             this.query(id)
+            this.queryAnnexe(id, "1")
             next()
         }
     }
