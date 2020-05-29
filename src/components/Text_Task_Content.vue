@@ -5,7 +5,7 @@
             <span>{{name}}</span>
         </div>
         <div style="margin-top: 10px">
-            <el-button type="primary" icon="el-icon-download">下载</el-button>
+            <el-button type="primary" icon="el-icon-download" @click="exportZip">下载</el-button>
             <el-button type="primary" icon="el-icon-delete" @click="deletAnnexe">删除</el-button>
         </div>
         <div style="margin-top: 10px">
@@ -48,6 +48,8 @@
 </template>
 
 <script>
+    import axios from "axios";
+
     export default {
 
         created() {
@@ -70,6 +72,28 @@
         }
         ,
         methods: {
+
+            exportZip() {
+                let ids = []
+                this.multipleSelection.forEach(m => {
+                    ids.push(m.id)
+                })
+                if (ids.length == 0) {
+                    this.$message.warning("请先选择附件！")
+                    return
+                }
+                axios({
+                    method: 'post',
+                    url: '/annexe/export',
+                    data: {
+                        ids: ids+'',
+                    },
+                    responseType: 'blob'
+                }).then(resp => {
+                    this.download(resp.data)
+                })
+
+            },
             deletAnnexe() {
                 let ids = []
                 this.multipleSelection.forEach(m => {
@@ -80,11 +104,12 @@
                     return
                 }
                 this.deleteRequest("/annexe/", {
-                    ids: ids + ''
+                    ids: ids + '',
+                    responseType:"blob"
                 }).then(resp => {
                     if (resp.data.status == 200) {
                         let id = this.$route.params.id
-                        this.query(id)
+                        this.queryAnnexe(id, "1")
                     }
                 })
             },
@@ -99,7 +124,7 @@
             },
             queryAnnexe(atid, currentPage) {
                 this.getRequest("/annexe/page", {
-                    currentPage: currentPage  ,
+                    currentPage: currentPage,
                     atid: atid + ""
                 }).then(resp => {
                     this.currentPage = parseInt(currentPage)
@@ -118,6 +143,18 @@
             page(val) {
                 let id = this.$route.params.id
                 this.queryAnnexe(id, val)
+            },
+            download(data) {
+                if (!data) {
+                    return
+                }
+                let url = window.URL.createObjectURL(new Blob([data]))
+                let link = document.createElement('a')
+                link.style.display = 'none'
+                link.href = url
+                link.setAttribute('download', 'a.zip')
+                document.body.appendChild(link)
+                link.click()
             }
 
         }
