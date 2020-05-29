@@ -51,7 +51,7 @@ import {
     DatePicker,
     RadioGroup,
     CollapseItem,
-    Switch
+    Switch, CheckboxGroup
 } from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 
@@ -72,6 +72,7 @@ Vue.use(DropdownMenu);
 Vue.use(DropdownItem);
 Vue.use(Aside);
 Vue.use(Main);
+Vue.use(CheckboxGroup)
 Vue.use(Checkbox);
 Vue.use(FormItem);
 Vue.use(Collapse);
