@@ -86,7 +86,7 @@
                     method: 'post',
                     url: '/annexe/export',
                     data: {
-                        ids: ids+'',
+                        ids: ids + '',
                     },
                     responseType: 'blob'
                 }).then(resp => {
@@ -105,7 +105,7 @@
                 }
                 this.deleteRequest("/annexe/", {
                     ids: ids + '',
-                    responseType:"blob"
+                    responseType: "blob"
                 }).then(resp => {
                     if (resp.data.status == 200) {
                         let id = this.$route.params.id
