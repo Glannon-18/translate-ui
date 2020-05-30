@@ -73,7 +73,7 @@
                         >
                         </el-table-column>
                         <el-table-column
-                                prop="original_language"
+                                prop="original_language_zh"
                                 label="原文语种"
                                 width="120">
                         </el-table-column>
@@ -93,7 +93,7 @@
         name: "Fast_Translate",
         created() {
             this.getRequest("/fast_task/",).then(resp => {
-                this.history = this.language_mapZh(resp.data.obj)
+                this.history = resp.data.obj
             })
         },
         data() {
@@ -175,15 +175,9 @@
                     this.translate_loading = false
                     return this.getRequest("/fast_task/", {})
                 }).then(resp => {
-                    this.history = this.language_mapZh(resp.data.obj)
+                    this.history = resp.data.obj
                 })
 
-            },
-            language_mapZh(obj) {
-                obj.forEach(value => {
-                    value.original_language = this.$store.state.language[value.original_language]
-                })
-                return obj
             },
             // 下载文件
             download(data) {

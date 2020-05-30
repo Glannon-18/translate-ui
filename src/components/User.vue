@@ -5,7 +5,7 @@
             <div><span>用户管理</span></div>
             <div style="display: flex">
                 <el-button type="primary" icon="el-icon-plus" @click="dialogFormVisible=true">新建用户</el-button>
-                <el-input placeholder="请输入词库名称" style="margin: 0 10px" v-model="searchword">
+                <el-input placeholder="请输入用户账号或者用户名" style="margin: 0 10px" v-model="searchword">
                     <i slot="prefix" class="el-input__icon el-icon-search"></i>
                 </el-input>
                 <el-button type="primary">搜索</el-button>
@@ -70,10 +70,8 @@
                 </el-form-item>
                 <el-form-item>
                     <el-checkbox-group v-model="roleIds" @change="sss">
-
                         <el-checkbox v-for="r in roles" :label="r.id" :key="r.id">{{r.nameZh}}</el-checkbox>
                     </el-checkbox-group>
-
                 </el-form-item>
             </el-form>
             <div slot="footer" class="dialog-footer">
@@ -105,7 +103,17 @@
                 rules: {
                     account: [{required: true, message: '请输入登录账号名', trigger: 'blur'}],
                     username: [{required: true, message: '请输入用户名', trigger: 'blur'}],
-                    phone: [{required: true, message: '请输入手机号', trigger: 'blur'}]
+                    phone: [{required: true, message: '请输入手机号', trigger: 'blur'}
+                    ,
+                        {validator:function(rule,value,callback){
+                                if(/^1[34578]\d{9}$/.test(value) == false){
+                                    callback(new Error("请输入正确的手机号"));
+                                }else{
+                                    callback();
+                                }
+                            }, trigger: 'blur'}
+
+                    ]
                 },
                 dialogFormVisible: false,
                 formLabelWidth: '120px',

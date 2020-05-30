@@ -27,12 +27,12 @@
 
                 </el-table-column>
                 <el-table-column
-                        prop="status"
+                        prop="status_zh"
                         label="状态"
                 >
                 </el-table-column>
                 <el-table-column
-                        prop="original_language"
+                        prop="original_language_zh"
                         label="原文语种"
                 >
                 </el-table-column>
@@ -131,10 +131,6 @@
                     this.total = resp.data.total
                     this.pageSize = resp.data.pageSize
                     // console.log(this.total,this.pageSize)
-                    resp.data.data.forEach(t => {
-                        t.original_language = this.$store.state.language[t.original_language]
-                        t.status = this.$store.state.annexe_status[t.status]
-                    })
                     this.tableData = resp.data.data
                 })
 

@@ -28,7 +28,6 @@
                 >
                 </el-table-column>
                 <el-table-column
-                        :formatter="dateFormat"
                         prop="create_time"
                         label="创建时间"
                 >
@@ -142,25 +141,9 @@
             },
             page(val) {
                 this.query(this.searchword, val)
-            },
-
-            dateFormat(row) {
-                // row 表示一行数据, createTime 表示要格式化的字段名称
-                let t = new Date(row.create_time)
-                if (!t) {
-                    return ''
-                }
-                let year = t.getFullYear()
-                let month = this.dateIfAddZero(t.getMonth() + 1)
-                let day = this.dateIfAddZero(t.getDate())
-                let hours = this.dateIfAddZero(t.getHours())
-                let minutes = this.dateIfAddZero(t.getMinutes())
-                let seconds = this.dateIfAddZero(t.getSeconds())
-                return year + '-' + month + '-' + day + ' ' + hours + ':' + minutes + ':' + seconds
-            },
-            dateIfAddZero: function (time) {
-                return time < 10 ? '0' + time : time
             }
+
+
         }
     }
 </script>
