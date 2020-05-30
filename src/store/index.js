@@ -8,16 +8,6 @@ export default new Vuex.Store({
     state: {
         // 把头像和用户名提取到vuex管理
         currentUser: {},
-        language: {
-            "zh": "中文",
-            "en": "英文",
-            "vi": "越南文",
-            "th": "泰文",
-        },
-        annexe_status:{
-            0:"未完成",
-            1:"已完成"
-        }
     },
     getters: {},
     mutations: {
