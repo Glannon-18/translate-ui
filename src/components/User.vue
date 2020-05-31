@@ -108,12 +108,28 @@
                     phone: ""
                 },
                 rules: {
-                    account: [{required: true, message: '请输入登录账号名', trigger: 'blur'}],
+                    account: [{required: true, message: '请输入登录账号名', trigger: 'blur'}
+                        ,
+                        {
+                            validator: (rule, value, callback) => {
+                                this.getRequest("/user/check", {
+                                    account: value
+                                }).then(resp => {
+                                    if (resp.data.obj == 0) {
+                                        callback()
+                                    } else {
+                                        callback(new Error("该账户名已经存在"))
+                                    }
+                                })
+                            }, trigger: 'blur'
+                        }
+
+                    ],
                     username: [{required: true, message: '请输入用户名', trigger: 'blur'}],
                     phone: [{required: true, message: '请输入手机号', trigger: 'blur'}
                         ,
                         {
-                            validator: function (rule, value, callback) {
+                            validator: (rule, value, callback) => {
                                 if (/^1[34578]\d{9}$/.test(value) == false) {
                                     callback(new Error("请输入正确的手机号"));
                                 } else {
