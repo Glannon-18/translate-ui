@@ -32,7 +32,7 @@
 
     import {mapMutations} from 'vuex'
 
-    const backImg = require("./assets/img/boris-baldinger-VEkIsvDviSs-unsplash.jpg")
+    const backImg = require("./assets/img/login.jpg")
 
     export default {
         name: "Login",
