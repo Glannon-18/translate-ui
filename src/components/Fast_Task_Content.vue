@@ -45,7 +45,7 @@
             }
             ,
             queryById(id) {
-                this.getRequest('/fast_task/' + id).then(resp => {
+                this.getRequest(`/fast_task/${id}`).then(resp => {
                     let {name, original_text, translate_text} = resp.data.obj
                     this.name = name
                     this.original = original_text

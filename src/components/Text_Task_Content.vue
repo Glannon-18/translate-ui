@@ -54,8 +54,20 @@
 
         created() {
             let id = this.$route.params.id
-            this.query(id)
-            this.queryAnnexe(id, "1")
+            axios.all([this.getRequest(`/annexe_task/${id}`), this.getRequest("/annexe/page", {
+                currentPage: "1",
+                atid: id + ""
+            })]).then(
+                axios.spread((first, second) => {
+                    this.name = first.data.obj.name
+                    this.currentPage = 1
+                    this.total = second.data.total
+                    this.pageSize = second.data.pageSize
+                    // console.log(this.total,this.pageSize)
+                    this.tableData = second.data.data
+
+                })
+            )
         },
 
         name: "Text_Task_Content"
@@ -108,8 +120,7 @@
                     responseType: "blob"
                 }).then(resp => {
                     if (resp.data.status == 200) {
-                        let id = this.$route.params.id
-                        this.queryAnnexe(id, "1")
+                        this.page("1")
                     }
                 })
             },
@@ -117,28 +128,18 @@
                 this.multipleSelection = val;
                 // console.log(this.multipleSelection)
             },
-            query(id) {
-                this.getRequest("/annexe_task/" + id).then(resp => {
-                    this.name = resp.data.obj.name
-                })
-            },
-            queryAnnexe(atid, currentPage) {
+            page(val) {
+                let atid = this.$route.params.id
                 this.getRequest("/annexe/page", {
-                    currentPage: currentPage,
+                    currentPage: val,
                     atid: atid + ""
                 }).then(resp => {
-                    this.currentPage = parseInt(currentPage)
+                    this.currentPage = parseInt(val)
                     this.total = resp.data.total
                     this.pageSize = resp.data.pageSize
                     // console.log(this.total,this.pageSize)
                     this.tableData = resp.data.data
                 })
-
-
-            },
-            page(val) {
-                let id = this.$route.params.id
-                this.queryAnnexe(id, val)
             },
             download(data) {
                 if (!data) {
@@ -157,8 +158,18 @@
         ,
         beforeRouteUpdate(to, from, next) {
             let id = to.params.id
-            this.query(id)
-            this.queryAnnexe(id, "1")
+            axios.all([this.getRequest(`/annexe_task/${id}`), this.getRequest("/annexe/page", {
+                currentPage: "1",
+                atid: id + ""
+            })]).then(
+                axios.spread((first, second) => {
+                    this.name = first.data.obj.name
+                    this.currentPage = 1
+                    this.total = second.data.total
+                    this.pageSize = second.data.pageSize
+                    this.tableData = second.data.data
+                })
+            )
             next()
         }
     }

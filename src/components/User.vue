@@ -45,7 +45,7 @@
                         width="140">
                     <template slot-scope="scope">
                         <el-button @click="show_user(scope.row)" type="text" size="small">编辑</el-button>
-                        <el-button @click="handleClick(scope.row)" type="text" size="small">删除</el-button>
+                        <el-button @click="delete_user(scope.row)" type="text" size="small">删除</el-button>
                     </template>
                 </el-table-column>
             </el-table>
@@ -131,6 +131,16 @@
         }, methods: {
 
 
+            delete_user(row) {
+                let id = row.id
+                this.deleteRequest(`/user/${id}`).then(resp => {
+                    if (resp.data.status == 200) {
+                        this.query("", "1")
+                    }
+                })
+
+
+            },
             formatRoleNames(row, column, cellValue) {
                 let roleName = ""
                 cellValue.forEach(i => {
