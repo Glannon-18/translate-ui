@@ -12,15 +12,13 @@
             </div>
         </div>
         <div style="margin-top: 10px">
-
-
             <el-table
                     :data="tableData"
             >
                 <el-table-column
                         prop="name"
                         label="词库名称"
-                        width="120">
+                        width="200">
                 </el-table-column>
                 <el-table-column
                         prop="username"
@@ -35,9 +33,10 @@
                 <el-table-column
                         fixed="right"
                         label="操作"
-                        width="100">
+                        width="200">
                     <template slot-scope="scope">
                         <el-button @click="handleClick(scope.row)" type="text" size="small">删除</el-button>
+                        <el-button @click="go2keyword(scope.row)" type="text" size="small">进入词库</el-button>
                     </template>
                 </el-table-column>
             </el-table>
@@ -86,25 +85,32 @@
                 },
                 dialogFormVisible: false,
                 formLabelWidth: '120px',
-                tableData: [
-                    //     {
-                    //     name: "dsadasd",
-                    //     user: "ddee",
-                    //     time: "2017-02-06",
-                    //     key: "dadasd dsadas"
-                    //
-                    // }
-                ]
+                tableData: []
             }
         }, methods: {
             handleClick(row) {
                 // console.log(row);
-                let id=row.id
-                this.deleteRequest("/library/",{
-                    id:id
-                }).then(()=>{
-                    this.query("",1)
+                let id = row.id
+                this.deleteRequest("/library/", {
+                    id: id
+                }).then(() => {
+                    this.query("", 1)
                 })
+            },
+
+            go2keyword(row) {
+                this.$router.push(
+                    {
+                        name: `keyword`,
+                        params: {
+                            libId: row.id,
+                            libName: row.name,
+                            libCreator: row.username,
+                            libCreateTime: row.create_time
+                        }
+                    }
+                )
+
             },
 
             search() {

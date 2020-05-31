@@ -71,7 +71,7 @@
                     <el-input v-model="form.phone" autocomplete="off"></el-input>
                 </el-form-item>
                 <el-form-item>
-                    <el-checkbox-group v-model="roleIds" @change="sss">
+                    <el-checkbox-group v-model="roleIds">
                         <el-checkbox v-for="r in roles" :label="r.id" :key="r.id">{{r.nameZh}}</el-checkbox>
                     </el-checkbox-group>
                 </el-form-item>
@@ -113,7 +113,8 @@
                         {
                             validator: (rule, value, callback) => {
                                 this.getRequest("/user/check", {
-                                    account: value
+                                    account: value,
+                                    userid:this.dialogUserId
                                 }).then(resp => {
                                     if (resp.data.obj == 0) {
                                         callback()
@@ -145,8 +146,6 @@
                 tableData: []
             }
         }, methods: {
-
-
             delete_user(row) {
                 let id = row.id
                 this.deleteRequest(`/user/${id}`).then(resp => {
@@ -154,8 +153,6 @@
                         this.query("", "1")
                     }
                 })
-
-
             },
             formatRoleNames(row, column, cellValue) {
                 let roleName = ""
@@ -164,19 +161,14 @@
                 })
                 return roleName
             },
-            sss() {
-                console.log(this.roleIds)
-            },
-            show_empty() {
 
+            show_empty() {
                 this.dialogUserId = ''
                 this.dialogFormVisible = true
-                console.log(this.dialogUserId == '')
             },
             show_user(row) {
                 let uid = row.id
                 this.dialogUserId = uid + ''
-                console.log(this.dialogUserId)
                 axios.all([this.getRequest("/user/" + uid), this.getRequest("/user_role/", {
                     uid: uid
                 })]).then(axios.spread((userinfo, rolesid) => {
@@ -250,6 +242,7 @@
                 this.query(this.searchword, "1")
             },
             resetForm() {
+                this.$refs.userForm.clearValidate()
                 this.form.account = ''
                 this.form.username = ''
                 this.form.phone = ''

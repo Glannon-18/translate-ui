@@ -45,13 +45,21 @@ export default new VueRouter({
                     path: "system_management",
                     component: () => import("../System_Management"),
                     children: [
+
+                        {
+                            name:"keyword",
+                            path: "keyword",
+                            component: () => import("../components/Keyword")
+                        },
                         {
                             path: "lib",
-                            component: () => import("../components/Lib")
+                            component: () => import("../components/Lib"),
+
+
                         }, {
                             path: "user",
                             component: () => import("../components/User")
-                        }
+                        },
                     ]
                 }
             ]
