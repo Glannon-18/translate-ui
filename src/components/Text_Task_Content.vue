@@ -118,10 +118,8 @@
                 this.deleteRequest("/annexe/", {
                     ids: ids + '',
                     responseType: "blob"
-                }).then(resp => {
-                    if (resp.data.status == 200) {
-                        this.page("1")
-                    }
+                }).then(() => {
+                    this.page("1")
                 })
             },
             handleSelectionChange(val) {

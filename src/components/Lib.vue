@@ -110,7 +110,6 @@
                         }
                     }
                 )
-
             },
 
             search() {
@@ -121,13 +120,10 @@
                     if (v) {
                         this.postRequest("/library/", {
                             name: this.form.name
-                        }).then(resp => {
-                            if (resp.data.status == 200) {
-                                this.$message.success("添加词库成功！")
-                                this.$refs.libForm.resetFields()
-                                this.dialogFormVisible = false
-                                this.query('', 1)
-                            }
+                        }).then(() => {
+                            this.$refs.libForm.resetFields()
+                            this.dialogFormVisible = false
+                            this.query('', 1)
                         })
                     }
                 })

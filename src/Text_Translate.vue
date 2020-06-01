@@ -100,12 +100,10 @@
             },
             success(response, file) {
                 this.returnPaths.push(file)
-                // console.log(this.returnPaths)
             },
             remove(file) {
                 let index = this.returnPaths.indexOf(file)
                 this.returnPaths.splice(index, 1)
-                // console.log(this.returnPaths)
             }
             ,
             sub_form() {
@@ -123,13 +121,10 @@
                             name: this.form.name,
                             language: this.form.language,
                             filePaths: fileList
-                        }).then(resp => {
-                            if (resp.data.status == 200) {
-                                this.$message.success("创建成功！")
-                                this.dialogFormVisible = false
-                                this.$refs.post_text_task.resetFields()
-                                this.$refs.fileUpload.clearFiles()
-                            }
+                        }).then(() => {
+                            this.dialogFormVisible = false
+                            this.$refs.post_text_task.resetFields()
+                            this.$refs.fileUpload.clearFiles()
                         })
                     }
 

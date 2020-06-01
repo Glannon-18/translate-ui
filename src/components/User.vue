@@ -114,7 +114,7 @@
                             validator: (rule, value, callback) => {
                                 this.getRequest("/user/check", {
                                     account: value,
-                                    userid:this.dialogUserId
+                                    userid: this.dialogUserId
                                 }).then(resp => {
                                     if (resp.data.obj == 0) {
                                         callback()
@@ -148,10 +148,8 @@
         }, methods: {
             delete_user(row) {
                 let id = row.id
-                this.deleteRequest(`/user/${id}`).then(resp => {
-                    if (resp.data.status == 200) {
-                        this.query("", "1")
-                    }
+                this.deleteRequest(`/user/${id}`).then(() => {
+                    this.query("", "1")
                 })
             },
             formatRoleNames(row, column, cellValue) {
@@ -191,12 +189,9 @@
                                 username: this.form.username,
                                 phone: this.form.phone,
                                 roles: this.roleIds
-                            }).then(resp => {
-                                if (resp.data.status == 200) {
-                                    this.$message.success("添加用户成功！")
-                                    this.dialogFormVisible = false
-                                    this.query("", "1")
-                                }
+                            }).then(() => {
+                                this.dialogFormVisible = false
+                                this.query("", "1")
                             })
                         }
                     })
@@ -208,12 +203,9 @@
                                 username: this.form.username,
                                 phone: this.form.phone,
                                 roles: this.roleIds
-                            }).then(resp => {
-                                if (resp.data.status == 200) {
-                                    this.$message.success("编辑用户成功！")
-                                    this.dialogFormVisible = false
-                                    this.query("", "1")
-                                }
+                            }).then(() => {
+                                this.dialogFormVisible = false
+                                this.query("", "1")
                             })
                         }
                     })

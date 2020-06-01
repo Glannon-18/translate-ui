@@ -39,11 +39,9 @@
         },
         methods: {
             logout() {
-                this.getRequest("/logout").then(response => {
-                    if (response.data.status == 200) {
+                this.getRequest("/logout").then(() => {
                         this.clearLogout()
                         this.$router.replace("/")
-                    }
                 })
             },
             ...mapMutations(["clearLogout"])
