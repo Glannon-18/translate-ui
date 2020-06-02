@@ -85,7 +85,7 @@
         }, methods: {
             getFast() {
                 this.dataType = 'fast'
-                this.getRequest("/fast_task/listByDate", {name: ""}).then(resp => {
+               this.getRequest("/fast_task/listByDate", {name: ""}).then(resp => {
                     this.task_data = resp.data.obj
                 })
                 this.btnshow = false

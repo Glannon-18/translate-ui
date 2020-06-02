@@ -3,7 +3,7 @@
         <div class="container" :style="style">
             <div class="login">
                 <div class="head">
-                    <span>讯飞巴别塔速译系统</span>
+                    <span>译畅速译系统</span>
                 </div>
                 <div class="form">
                     <el-form :model="form" ref="loginForm" :rules="rules">

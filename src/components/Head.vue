@@ -1,7 +1,7 @@
 <template>
     <div class="homeHeader">
         <div class="name">
-            巴别塔讯飞速译系统
+            译畅速译系统
         </div>
         <div style="display: flex;justify-content: center;align-items: center">
             <el-menu :default-active="activeIndex" mode="horizontal" background-color="#409eff"

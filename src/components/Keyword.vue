@@ -23,7 +23,6 @@
                     ref="saveTagInput"
                     size="small"
                     @keyup.enter.native="handleInputConfirm"
-                    @keyup.esc.native="esc"
                     @blur="handleInputConfirm"
             >
             </el-input>
@@ -47,10 +46,6 @@
             };
         },
         methods: {
-            esc() {
-                this.inputVisible = false;
-                this.inputValue = '';
-            },
 
             handleClose(tag) {
                 this.deleteRequest(`/keyword/${tag.id}`).then(() => {
@@ -59,10 +54,8 @@
             },
 
             showInput() {
-                console.log(this.libId)
                 this.inputVisible = true;
                 this.$nextTick(() => {
-                    console.log(this.$refs.saveTagInput)
                     this.$refs.saveTagInput.focus();
                 });
             },
