@@ -24,7 +24,7 @@
             <div class="third_head">
                 <div>用户使用情况统计</div>
                 <div>
-                    <el-select v-model="third_time">
+                    <el-select v-model="third_time" @change="obtain_third(third_time)">
                         <el-option label="24小时" value="24h">
 
                         </el-option>
@@ -37,13 +37,13 @@
 
             <div class="third_data">
 
-                <el-table
-                        ref="multipleTable"
-                        :data="tableData"
-                        height="210"
-                        tooltip-effect="dark"
-                        style="width: 100%"
-                    >
+                <el-table v-loading="third_loading"
+                          ref="multipleTable"
+                          :data="tableData"
+                          height="210"
+                          tooltip-effect="dark"
+                          style="width: 100%"
+                >
                     <el-table-column
                             prop="username"
                             label="用户名"
@@ -85,6 +85,7 @@
     export default {
         created() {
             this.obtain_first()
+            this.obtain_third(this.third_time)
         },
         name: "Home",
         data() {
@@ -97,52 +98,8 @@
 
 
                 third_time: "24h",
-                tableData: [
-                    {
-                        username:"dsd",
-                        task_count:100,
-                        annexe_count:500,
-                        most_use_language:"越南语",
-                        last_use_language:"中文"
-
-                    },
-                    {
-                        username:"dsd",
-                        task_count:100,
-                        annexe_count:500,
-                        most_use_language:"越南语",
-                        last_use_language:"中文"
-
-                    }, {
-                        username:"dsd",
-                        task_count:100,
-                        annexe_count:500,
-                        most_use_language:"越南语",
-                        last_use_language:"中文"
-
-                    }, {
-                        username:"dsd",
-                        task_count:100,
-                        annexe_count:500,
-                        most_use_language:"越南语",
-                        last_use_language:"中文"
-
-                    }, {
-                        username:"dsd",
-                        task_count:100,
-                        annexe_count:500,
-                        most_use_language:"越南语",
-                        last_use_language:"中文"
-
-                    }, {
-                        username:"dsd",
-                        task_count:100,
-                        annexe_count:500,
-                        most_use_language:"越南语",
-                        last_use_language:"中文"
-
-                    }
-                ]
+                tableData: [],
+                third_loading: true
             }
         },
         methods: {
@@ -157,6 +114,17 @@
                         this.first_loading = false
                     }
                 )
+            },
+            obtain_third(type) {
+                this.third_loading = true
+                this.getRequest("/annexe_task/getAllInfo", {
+                    type: type
+                }).then(resp => {
+                    let data = resp.data.obj
+                    this.tableData = data
+                    this.third_loading = false
+                })
+
             }
         }
 
