@@ -119,6 +119,9 @@ Vue.prototype.putRequest = putRequest;
 Vue.prototype.deleteRequest = deleteRequest;
 Vue.prototype.getRequest = getRequest;
 
+import echarts from 'echarts'
+Vue.prototype.$echarts = echarts
+
 new Vue({
     router,
     store,
