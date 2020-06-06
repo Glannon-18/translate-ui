@@ -19,7 +19,7 @@
         </div>
         <div class="content">
             <div class="third_head">
-                <div>文档处理数量统计</div>
+                <div>文档数量统计</div>
                 <div>
                     <el-select v-model="second_time" @change="second_change">
                         <el-option label="24小时" value="24h">
@@ -52,7 +52,6 @@
             <div class="third_data">
 
                 <el-table v-loading="third_loading"
-                          ref="multipleTable"
                           :data="tableData"
                           height="210"
                           tooltip-effect="dark"
@@ -88,7 +87,50 @@
             </div>
         </div>
         <div class="content">
-            5566
+            <div class="third_head">
+                <div>语种调用情况统计</div>
+                <div>
+                    <el-select v-model="fourth_time" @change="obtain_fourth(fourth_time)">
+                        <el-option label="24小时" value="24h">
+                        </el-option>
+                        <el-option label="30天" value="30d">
+                        </el-option>
+                    </el-select>
+                </div>
+            </div>
+            <div class="fourth_data">
+                <div id="pie" style="width: 60%;margin-top: 10px">
+
+                </div>
+                <div style="width: 40%;margin-top: 10px">
+                    <el-table
+                            :data="fourth_tableData"
+                            height="210"
+                            border
+                            tooltip-effect="dark"
+                            style="width: 100%"
+                    >
+                        <el-table-column
+                                prop="type"
+                                label="类型"
+                        >
+
+                        </el-table-column>
+                        <el-table-column
+                                prop="count"
+                                label="数量"
+                        >
+                        </el-table-column>
+                        <el-table-column
+                                prop="rate"
+                                label="占比"
+                        >
+
+                        </el-table-column>
+                    </el-table>
+                </div>
+
+            </div>
         </div>
     </div>
 
@@ -100,6 +142,7 @@
         created() {
             this.obtain_first()
             this.obtain_third(this.third_time)
+            this.obtain_fourth(this.fourth_time)
         },
         mounted() {
             this.getRequest("/annexe/annexeCountByPeriod", {
@@ -113,6 +156,7 @@
                 let pdf = data.pdf
                 this.drawLine(x_string, txt, pdf, word, eml)
             })
+            this.drawpie()
         },
         name: "Home",
         data() {
@@ -128,10 +172,11 @@
 
 
                 third_time: "24h",
+                fourth_time: "24h",
                 tableData: [],
                 third_loading: true,
 
-                opinionData: ["3", "2", "4", "4", "5"]
+                fourth_tableData: []
             }
         },
         methods: {
@@ -171,6 +216,14 @@
                     this.third_loading = false
                 })
 
+            },
+            obtain_fourth(type) {
+                this.getRequest("/annexe/getAnnexeCountByType", {
+                    type: type
+                }).then(resp => {
+                    let data = resp.data.obj
+                    this.fourth_tableData = data.r
+                })
             }
             ,
             drawLine(x_string, txt, pdf, word, eml) {
@@ -191,9 +244,9 @@
                         data: ['word', 'pdf', "eml", "txt"]
                     },
                     grid: {
-                        left: '3%',
-                        right: '4%',
-                        bottom: '11%',
+                        left: '1%',
+                        right: '1%',
+                        bottom: '10%',
                         containLabel: true
                     },
                     xAxis: [
@@ -318,7 +371,72 @@
 
                 }
                 myChart.setOption(option)
+            },
+            drawpie() {
+                let myChart = this.$echarts.init(document.getElementById('pie'));
+                let option = {
+                    tooltip: {//提示框，可以在全局也可以在
+                        trigger: 'item',  //提示框的样式
+                        formatter: "{a} <br/>{b}: {c} ({d}%)",
+                        color: '#000', //提示框的背景色
+                        textStyle: { //提示的字体样式
+                            color: "black",
+                        }
+                    },
+                    legend: {  //图例
+                        orient: 'vertical',  //图例的布局，竖直    horizontal为水平
+                        x: 'right',//图例显示在右边
+                        data: ['直接访问', '邮件营销', '联盟广告', '视频广告', '搜索引擎'],
+                        textStyle: {    //图例文字的样式
+                            color: '#333',  //文字颜色
+                            fontSize: 12    //文字大小
+                        }
+                    },
+                    grid: {
+                        left: '1%',
+                        right: '1%',
+                        bottom: '10%',
+                        containLabel: true
+                    },
+
+                    series: [
+                        {
+                            name: '访问来源',
+                            type: 'pie', //环形图的type和饼图相同
+                            radius: ['50%', '70%'],//饼图的半径，第一个为内半径，第二个为外半径
+                            avoidLabelOverlap: false,
+                            color: ['#D1FBEF', '#F9D858', '#4CD0DD', '#DF86F0', '#F5A7C1'],
+                            label: {
+                                normal: {  //正常的样式
+                                    show: true,
+                                    position: 'left'
+                                },
+                                emphasis: { //选中时候的样式
+                                    show: true,
+                                    textStyle: {
+                                        fontSize: '20',
+                                        fontWeight: 'bold'
+                                    }
+                                }
+                            },  //提示文字
+                            labelLine: {
+                                normal: {
+                                    show: false
+                                }
+                            },
+                            data: [
+                                {value: 335, name: '直接访问'},
+                                {value: 310, name: '邮件营销'},
+                                {value: 234, name: '联盟广告'},
+                                {value: 135, name: '视频广告'},
+                                {value: 1548, name: '搜索引擎'}
+                            ]
+                        }
+                    ]
+                };
+                myChart.setOption(option);
             }
+
         }
 
     }
@@ -333,7 +451,7 @@
     }
 
     .content {
-        height: 250px;
+        height: 300px;
         box-shadow: 2px 2px 10px #9090905c;
         border-radius: 5px;
         padding: 7px;
@@ -368,6 +486,10 @@
 
     .third_data {
 
+    }
+
+    .fourth_data {
+        display: flex;
     }
 
 
