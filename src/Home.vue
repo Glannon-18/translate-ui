@@ -228,7 +228,7 @@
                 })
             },
 
-            obtain_fourth_all(type){
+            obtain_fourth_all(type) {
                 this.obtain_fourth(type)
                 this.getRequest("/annexe_task/getLanguageShare", {
                     type: this.fourth_time
@@ -258,7 +258,7 @@
                     },
                     grid: {
                         left: '1%',
-                        right: '1%',
+                        right: '2%',
                         bottom: '10%',
                         containLabel: true
                     },
@@ -393,7 +393,7 @@
                         formatter: "{a} <br/>{b}: {c} ({d}%)",
                         color: '#000', //提示框的背景色
                         textStyle: { //提示的字体样式
-                            color: "black",
+                            color: "white",
                         }
                     },
                     series: [

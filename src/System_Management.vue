@@ -3,7 +3,7 @@
         <el-container>
             <el-aside>
                 <el-menu router>
-                    <el-menu-item index="/content/system_management/lib">
+                    <el-menu-item ref="ckgl" index="/content/system_management/lib">
                         <span slot="title">词库管理</span>
                     </el-menu-item>
                     <el-menu-item index="/content/system_management/user">
@@ -23,6 +23,9 @@
 
     export default {
         name: "System_Management",
+        mounted(){
+            this.$refs.ckgl.$el.click()
+        },
         data() {
             return {
                 searchValue: ""

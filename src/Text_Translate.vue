@@ -6,7 +6,7 @@
                     <div style="font-size: 18px"><i class="el-icon-timer"></i> 历史任务</div>
                     <div>
                         <el-button-group>
-                            <el-button type="primary" @click="getFast">快速翻译</el-button>
+                            <el-button ref="ft" type="primary" @click="getFast">快速翻译</el-button>
                             <el-button type="primary" @click="getText">文本翻译</el-button>
                         </el-button-group>
                     </div>
@@ -65,6 +65,9 @@
 
     export default {
         name: "Text_Translate",
+        mounted(){
+            this.$refs.ft.$el.click()
+        },
         data() {
             return {
                 task_data: [],
