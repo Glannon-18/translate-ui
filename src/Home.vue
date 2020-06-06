@@ -90,7 +90,7 @@
             <div class="third_head">
                 <div>语种调用情况统计</div>
                 <div>
-                    <el-select v-model="fourth_time" @change="obtain_fourth(fourth_time)">
+                    <el-select v-model="fourth_time" @change="obtain_fourth_all(fourth_time)">
                         <el-option label="24小时" value="24h">
                         </el-option>
                         <el-option label="30天" value="30d">
@@ -99,7 +99,7 @@
                 </div>
             </div>
             <div class="fourth_data">
-                <div id="pie" style="width: 60%;margin-top: 10px">
+                <div id="pie" style="width: 437px ;height:210px;margin-top: 10px;margin-right: 15px">
 
                 </div>
                 <div style="width: 40%;margin-top: 10px">
@@ -156,7 +156,12 @@
                 let pdf = data.pdf
                 this.drawLine(x_string, txt, pdf, word, eml)
             })
-            this.drawpie()
+            this.getRequest("/annexe_task/getLanguageShare", {
+                type: this.fourth_time
+            }).then(resp => {
+                let data = resp.data.obj
+                this.drawpie(data)
+            })
         },
         name: "Home",
         data() {
@@ -166,17 +171,13 @@
                 Ap24h: "",
                 Ap30d: "",
                 first_loading: true,
-
-
                 second_time: "24h",
-
-
                 third_time: "24h",
                 fourth_time: "24h",
                 tableData: [],
                 third_loading: true,
-
-                fourth_tableData: []
+                fourth_tableData: [],
+                pie_date: []
             }
         },
         methods: {
@@ -217,6 +218,7 @@
                 })
 
             },
+
             obtain_fourth(type) {
                 this.getRequest("/annexe/getAnnexeCountByType", {
                     type: type
@@ -224,6 +226,17 @@
                     let data = resp.data.obj
                     this.fourth_tableData = data.r
                 })
+            },
+
+            obtain_fourth_all(type){
+                this.obtain_fourth(type)
+                this.getRequest("/annexe_task/getLanguageShare", {
+                    type: this.fourth_time
+                }).then(resp => {
+                    let data = resp.data.obj
+                    this.drawpie(data)
+                })
+
             }
             ,
             drawLine(x_string, txt, pdf, word, eml) {
@@ -346,7 +359,7 @@
                             type: 'line',
                             smooth: true,
                             itemStyle: {
-                                normal: { // 颜色渐变函数 前四个参数分别表示四个位置依次为左、下、右、上
+                                normal: { // 颜色渐变函数 前四个参数g分别表示四个位置依次为左、下、右、上
                                     color: new this.$echarts.graphic.LinearGradient(0, 0, 0, 1, [{
                                             offset: 0, color: '#97ffb4' // 0% 处的颜色
                                         }, {
@@ -372,7 +385,7 @@
                 }
                 myChart.setOption(option)
             },
-            drawpie() {
+            drawpie(data) {
                 let myChart = this.$echarts.init(document.getElementById('pie'));
                 let option = {
                     tooltip: {//提示框，可以在全局也可以在
@@ -383,29 +396,13 @@
                             color: "black",
                         }
                     },
-                    legend: {  //图例
-                        orient: 'vertical',  //图例的布局，竖直    horizontal为水平
-                        x: 'right',//图例显示在右边
-                        data: ['直接访问', '邮件营销', '联盟广告', '视频广告', '搜索引擎'],
-                        textStyle: {    //图例文字的样式
-                            color: '#333',  //文字颜色
-                            fontSize: 12    //文字大小
-                        }
-                    },
-                    grid: {
-                        left: '1%',
-                        right: '1%',
-                        bottom: '10%',
-                        containLabel: true
-                    },
-
                     series: [
                         {
-                            name: '访问来源',
+                            name: '原文语种',
                             type: 'pie', //环形图的type和饼图相同
                             radius: ['50%', '70%'],//饼图的半径，第一个为内半径，第二个为外半径
                             avoidLabelOverlap: false,
-                            color: ['#D1FBEF', '#F9D858', '#4CD0DD', '#DF86F0', '#F5A7C1'],
+                            color: ['#76d8f6', '#f56969', '#a18cff'],
                             label: {
                                 normal: {  //正常的样式
                                     show: true,
@@ -424,13 +421,13 @@
                                     show: false
                                 }
                             },
-                            data: [
-                                {value: 335, name: '直接访问'},
-                                {value: 310, name: '邮件营销'},
-                                {value: 234, name: '联盟广告'},
-                                {value: 135, name: '视频广告'},
-                                {value: 1548, name: '搜索引擎'}
-                            ]
+                            data: data
+                            //     [
+                            //     {value: 335, name: '直接访问'},
+                            //     {value: 310, name: '邮件营销'},
+                            //     {value: 234, name: '联盟广告'},
+                            //
+                            // ]
                         }
                     ]
                 };

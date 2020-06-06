@@ -29,9 +29,9 @@
                 </el-form-item>
                 <el-form-item label="选择语种" :label-width="formLabelWidth" prop="language">
                     <el-select v-model="form.language" placeholder="请选择原文语种">
-                        <el-option label="中文" value="zh"></el-option>
                         <el-option label="越南文" value="vi"></el-option>
                         <el-option label="泰文" value="th"></el-option>
+                        <el-option label="英文" value="en"></el-option>
                     </el-select>
                 </el-form-item>
 

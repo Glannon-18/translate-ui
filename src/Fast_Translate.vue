@@ -107,7 +107,9 @@
                 }, {
                     value: 'th',
                     label: '泰文'
-                }],
+                },
+
+                ],
                 language_ori: '',
                 original: '',
                 translation: '',
