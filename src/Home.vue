@@ -21,7 +21,7 @@
             <div class="third_head">
                 <div>文档处理数量统计</div>
                 <div>
-                    <el-select v-model="second_time">
+                    <el-select v-model="second_time" @change="second_change">
                         <el-option label="24小时" value="24h">
 
                         </el-option>
@@ -42,10 +42,8 @@
                 <div>
                     <el-select v-model="third_time" @change="obtain_third(third_time)">
                         <el-option label="24小时" value="24h">
-
                         </el-option>
                         <el-option label="30天" value="30d">
-
                         </el-option>
                     </el-select>
                 </div>
@@ -103,9 +101,18 @@
             this.obtain_first()
             this.obtain_third(this.third_time)
         },
-
         mounted() {
-            this.drawLine()
+            this.getRequest("/annexe/annexeCountByPeriod", {
+                type: this.second_time
+            }).then(resp => {
+                let data = resp.data.obj
+                let x_string = data.x_string
+                let txt = data.txt
+                let word = data.word
+                let eml = data.eml
+                let pdf = data.pdf
+                this.drawLine(x_string, txt, pdf, word, eml)
+            })
         },
         name: "Home",
         data() {
@@ -128,6 +135,20 @@
             }
         },
         methods: {
+            second_change() {
+                this.getRequest("/annexe/annexeCountByPeriod", {
+                    type: this.second_time
+                }).then(resp => {
+                    let data = resp.data.obj
+                    let x_string = data.x_string
+                    let txt = data.txt
+                    let word = data.word
+                    let eml = data.eml
+                    let pdf = data.pdf
+                    this.drawLine(x_string, txt, pdf, word, eml)
+                })
+            },
+
             obtain_first() {
                 this.getRequest("/annexe/annexeStatus").then(
                     resp => {
@@ -151,13 +172,12 @@
                 })
 
             }
-
             ,
-            drawLine() {
+            drawLine(x_string, txt, pdf, word, eml) {
                 // 基于准备好的dom，初始化echarts实例
                 let myChart = this.$echarts.init(document.getElementById('annexe'))
                 // 绘制图表
-                let option={
+                let option = {
                     tooltip: {
                         trigger: 'axis',
                         axisPointer: {
@@ -168,7 +188,7 @@
                         },
                     },
                     legend: {
-                        data: ['word','pdf',"eml","txt"]
+                        data: ['word', 'pdf', "eml", "txt"]
                     },
                     grid: {
                         left: '3%',
@@ -180,7 +200,8 @@
                         {
                             type: 'category',
                             boundaryGap: false,
-                            data: ["1","2","3","4","5"]
+                            // data: ["1", "2", "3", "4", "5"]
+                            data: x_string
                         }
                     ],
                     yAxis: [
@@ -212,7 +233,8 @@
                             }, // 线条样式
                             symbolSize: 2,  // 折线点的大小
                             areaStyle: {normal: {}},
-                            data:  ["5","2","3","4","5"]
+                            // data: ["5", "2", "3", "4", "5"]
+                            data: word
                         },
                         {
                             name: 'pdf',
@@ -237,7 +259,8 @@
                             }, // 线条样式
                             symbolSize: 2,  // 折线点的大小
                             areaStyle: {normal: {}},
-                            data:  ["0","0","1","1","0"]
+                            // data: ["0", "0", "1", "1", "0"]
+                            data: pdf
                         },
                         {
                             name: 'eml',
@@ -262,7 +285,8 @@
                             }, // 线条样式
                             symbolSize: 2,  // 折线点的大小
                             areaStyle: {normal: {}},
-                            data:  ["0","1","1","2","5"]
+                            // data: ["0", "1", "1", "2", "5"]
+                            data: eml
                         },
                         {
                             name: 'txt',
@@ -287,7 +311,8 @@
                             }, // 线条样式
                             symbolSize: 2,  // 折线点的大小
                             areaStyle: {normal: {}},
-                            data:  ["0","0","0","1","3"]
+                            // data: ["0", "0", "0", "1", "3"]
+                            data: txt
                         }
                     ]
 
