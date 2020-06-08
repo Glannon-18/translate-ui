@@ -148,7 +148,7 @@
                     return
                 }
                 this.translate_loading = true
-                this.getRequest("/fast_task/translate", {
+                this.postKeyValueRequest("/fast_task/translate", {
                     text: this.original,
                     srcLang: this.language_ori,
                     tgtLang: "zh",
