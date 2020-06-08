@@ -149,28 +149,16 @@
                     return;
                 }
                 this.translate_loading = true
-                new Promise((resolve) => {
-
-                    /**
-                     *  todo 没有翻译接口，模拟一下
-                     */
-                    setTimeout(() => {
-                        resolve("已经得到翻译结果")
-                    }, 1500)
-
+                this.getRequest("/fast_task/translate", {
+                    text: this.original,
+                    srcLang: this.language_ori,
+                    tgtLang: "zh",
                 }).then(data => {
-                    this.translation = data
-                    return new Promise(resolve => {
-                        resolve(this.translation)
-                    })
-                }).then(data => {
+                    this.translation = data.data.obj.tr
                     return this.postRequest('/fast_task/', {
                         original_text: this.original,
-                        translate_text: data,
+                        translate_text: this.translation,
                         original_language: this.language_ori,
-                        /**
-                         * 都翻译成中文
-                         */
                         translate_language: 'zh',
                     })
                 }).then(() => {
@@ -194,6 +182,7 @@
                 document.body.appendChild(link)
                 link.click()
             }
+
         }
     }
 </script>
