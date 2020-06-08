@@ -108,7 +108,6 @@
                     value: 'th',
                     label: '泰文'
                 },
-
                 ],
                 language_ori: '',
                 original: '',
@@ -124,7 +123,7 @@
                 if (this.translation.trim().length == 0) {
 
                     this.$message.warning("没有文本可以下载!")
-                    return;
+                    return
                 }
                 axios({
                     method: 'post',
@@ -146,7 +145,7 @@
             translate() {
                 if (this.language_ori.trim() == '' || this.original.trim() == '') {
                     this.$message.warning("请选择语言并且输入原文")
-                    return;
+                    return
                 }
                 this.translate_loading = true
                 this.getRequest("/fast_task/translate", {
