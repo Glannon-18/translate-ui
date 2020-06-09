@@ -7,7 +7,7 @@
                     <div>
                         <el-button-group>
                             <el-button ref="ft" type="primary" @click="getFast">快速翻译</el-button>
-                            <el-button type="primary" @click="getText">文本翻译</el-button>
+                            <el-button ref="at" type="primary" @click="getText">文本翻译</el-button>
                         </el-button-group>
                     </div>
                 </div>
@@ -24,7 +24,7 @@
         </el-container>
         <el-dialog title="新建文本任务" :visible.sync="dialogFormVisible" width="30%">
             <el-form :model="form" :rules="rules" ref="post_text_task">
-                <el-form-item label="任务名称名称" :label-width="formLabelWidth" prop="name">
+                <el-form-item label="任务名称" :label-width="formLabelWidth" prop="name">
                     <el-input v-model="form.name" autocomplete="off"></el-input>
                 </el-form-item>
                 <el-form-item label="选择语种" :label-width="formLabelWidth" prop="language">
@@ -65,7 +65,7 @@
 
     export default {
         name: "Text_Translate",
-        mounted(){
+        mounted() {
             this.$refs.ft.$el.click()
         },
         data() {
@@ -88,7 +88,7 @@
         }, methods: {
             getFast() {
                 this.dataType = 'fast'
-               this.getRequest("/fast_task/listByDate", {name: ""}).then(resp => {
+                this.getRequest("/fast_task/listByDate", {name: ""}).then(resp => {
                     this.task_data = resp.data.obj
                 })
                 this.btnshow = false
@@ -128,6 +128,7 @@
                             this.dialogFormVisible = false
                             this.$refs.post_text_task.resetFields()
                             this.$refs.fileUpload.clearFiles()
+                            this.$refs.at.$el.click()
                         })
                     }
 

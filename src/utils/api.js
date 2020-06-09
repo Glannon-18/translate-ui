@@ -4,31 +4,32 @@ import router from '../router'
 
 axios.interceptors.response.use(success => {
     if (success.status && success.status == 200 && success.data.status == 500) {
-        Message.error({message: success.data.msg})
+        Message.error({message: success.data.msg, duration: duration})
         return;
     }
     if (success.data.msg) {
-        Message.success({message: success.data.msg})
+        Message.success({message: success.data.msg, duration: duration})
     }
     return success;
 }, error => {
     if (error.response.status == 504 || error.response.status == 404) {
-        Message.error({message: '后台异常'})
+        Message.error({message: '后台异常', duration: duration})
     } else if (error.response.status == 403) {
-        Message.error({message: '你的权限不足'})
+        Message.error({message: '你的权限不足', duration: duration})
     } else if (error.response.status == 401) {
-        Message.error({message: '尚未登录，请登录'})
+        Message.error({message: '尚未登录，请登录', duration: duration})
         router.replace('/');
     } else {
         if (error.response.data.msg) {
-            Message.error({message: error.response.data.msg})
+            Message.error({message: error.response.data.msg, duration: duration})
         } else {
-            Message.error({message: '未知错误!'})
+            Message.error({message: '未知错误!', duration: duration})
         }
     }
     return;
 })
 let base = ''
+let duration = 1300
 
 
 export const postKeyValueRequest = (url, params) => {

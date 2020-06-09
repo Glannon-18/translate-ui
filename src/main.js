@@ -2,6 +2,7 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from "@/router"
 import store from '@/store'
+
 Vue.config.productionTip = false
 
 import {
@@ -107,6 +108,8 @@ Vue.prototype.$confirm = MessageBox.confirm
 Vue.prototype.$message = Message
 
 
+
+
 import {postRequest} from "./utils/api";
 import {postKeyValueRequest} from "./utils/api";
 import {putRequest} from "./utils/api";
@@ -120,6 +123,7 @@ Vue.prototype.deleteRequest = deleteRequest;
 Vue.prototype.getRequest = getRequest;
 
 import echarts from 'echarts'
+
 Vue.prototype.$echarts = echarts
 
 new Vue({
