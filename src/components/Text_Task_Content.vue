@@ -2,7 +2,7 @@
 
     <div>
         <div>
-            <span>{{name}}</span>
+            <h4>{{name}}</h4>
         </div>
         <div style="margin-top: 10px">
             <el-button type="primary" icon="el-icon-download" @click="exportZip">下载</el-button>
