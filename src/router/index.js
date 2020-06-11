@@ -38,6 +38,10 @@ export default new VueRouter({
                         path: "text/:id",
                         component: () => import("../components/Text_Task_Content")
 
+                    }, {
+                        path: "annexe/:id",
+                        component: () => import("../components/Annexe_Content")
+
                     }
                     ]
                 }
@@ -47,7 +51,7 @@ export default new VueRouter({
                     children: [
 
                         {
-                            name:"keyword",
+                            name: "keyword",
                             path: "keyword",
                             component: () => import("../components/Keyword")
                         },

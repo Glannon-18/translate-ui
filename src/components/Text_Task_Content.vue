@@ -36,6 +36,15 @@
                         label="原文语种"
                 >
                 </el-table-column>
+
+                <el-table-column
+                        fixed="right"
+                        label="操作"
+                        width="200">
+                    <template slot-scope="scope">
+                        <el-button @click="show_document(scope.row)" type="text" size="small">查看</el-button>
+                    </template>
+                </el-table-column>
             </el-table>
             <el-pagination style="margin-top: 15px" :page-size="pageSize"
                            layout="prev, pager, next" :current-page.sync="currentPage"
@@ -84,7 +93,11 @@
         }
         ,
         methods: {
+            show_document(row) {
+                let id=row.id
+                this.$router.push("/content/text_translate/annexe/"+id)
 
+            },
             exportZip() {
                 let ids = []
                 this.multipleSelection.forEach(m => {
