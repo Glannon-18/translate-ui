@@ -2,7 +2,8 @@
     <div class="ft">
         <el-row>
             <el-col :span="12" style="display: flex;justify-content: space-between">
-                <el-select v-model="language_ori" placeholder="请选择原文语言">
+                <div>
+                <el-select v-model="language_ori" placeholder="请选择原文语言" style="margin-right: 10px">
                     <el-option
                             v-for="item in options"
                             :key="item.value"
@@ -10,6 +11,16 @@
                             :value="item.value">
                     </el-option>
                 </el-select>
+
+                <el-select v-model="language_tra" placeholder="请选择翻译语言">
+                    <el-option
+                            v-for="item in options"
+                            :key="item.value"
+                            :label="item.label"
+                            :value="item.value">
+                    </el-option>
+                </el-select>
+                </div>
                 <el-button type="primary" @click="translate" :loading="translate_loading">翻译</el-button>
             </el-col>
             <el-col :span="12" style="display: flex;justify-content: flex-end">
@@ -108,8 +119,13 @@
                     value: 'th',
                     label: '泰文'
                 },
+                    {
+                        value: 'zh',
+                        label: '中文'
+                    },
                 ],
                 language_ori: '',
+                language_tra: "",
                 original: '',
                 translation: '',
                 history_show: false,
@@ -143,7 +159,7 @@
             }
             ,
             translate() {
-                if (this.language_ori.trim() == '' || this.original.trim() == '') {
+                if (this.language_ori.trim() == '' || this.original.trim() == '' || this.language_tra.trim() == '') {
                     this.$message.warning("请选择语言并且输入原文")
                     return
                 }
@@ -151,7 +167,7 @@
                 this.postKeyValueRequest("/fast_task/translate", {
                     text: this.original,
                     srcLang: this.language_ori,
-                    tgtLang: "zh",
+                    tgtLang: this.language_tra,
                 }).then(data => {
                     this.translation = data.data.obj.tr
                     return this.postRequest('/fast_task/', {
