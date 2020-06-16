@@ -3,6 +3,7 @@
     <div>
         <div>
             <h4>{{name}}</h4>
+            <h5>语言方向 {{original_language_zh}}-{{translate_language_zh}}</h5>
         </div>
         <div style="margin-top: 10px">
             <el-button type="primary" icon="el-icon-download" @click="exportZip">下载</el-button>
@@ -31,11 +32,7 @@
                         label="状态"
                 >
                 </el-table-column>
-                <el-table-column
-                        prop="original_language_zh"
-                        label="原文语种"
-                >
-                </el-table-column>
+
 
                 <el-table-column
                         fixed="right"
@@ -69,12 +66,12 @@
             })]).then(
                 axios.spread((first, second) => {
                     this.name = first.data.obj.name
+                    this.original_language_zh=first.data.obj.original_language_zh
+                    this.translate_language_zh=first.data.obj.translate_language_zh
                     this.currentPage = 1
                     this.total = second.data.total
                     this.pageSize = second.data.pageSize
-                    // console.log(this.total,this.pageSize)
                     this.tableData = second.data.data
-
                 })
             )
         },
@@ -84,6 +81,8 @@
         data() {
             return {
                 name: "",
+                original_language_zh: "",
+                translate_language_zh: "",
                 tableData: [],
                 total: 0,
                 pageSize: 0,
@@ -94,8 +93,8 @@
         ,
         methods: {
             show_document(row) {
-                let id=row.id
-                this.$router.push("/content/text_translate/annexe/"+id)
+                let id = row.id
+                this.$router.push("/content/text_translate/annexe/" + id)
 
             },
             exportZip() {

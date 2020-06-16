@@ -3,23 +3,23 @@
         <el-row>
             <el-col :span="12" style="display: flex;justify-content: space-between">
                 <div>
-                <el-select v-model="language_ori" placeholder="请选择原文语言" style="margin-right: 10px">
-                    <el-option
-                            v-for="item in options"
-                            :key="item.value"
-                            :label="item.label"
-                            :value="item.value">
-                    </el-option>
-                </el-select>
+                    <el-select v-model="language_ori" placeholder="请选择原文语言" style="margin-right: 10px">
+                        <el-option
+                                v-for="item in options"
+                                :key="item.value"
+                                :label="item.label"
+                                :value="item.value">
+                        </el-option>
+                    </el-select>
 
-                <el-select v-model="language_tra" placeholder="请选择翻译语言">
-                    <el-option
-                            v-for="item in options"
-                            :key="item.value"
-                            :label="item.label"
-                            :value="item.value">
-                    </el-option>
-                </el-select>
+                    <el-select v-model="language_tra" placeholder="请选择翻译语言">
+                        <el-option
+                                v-for="item in options"
+                                :key="item.value"
+                                :label="item.label"
+                                :value="item.value">
+                        </el-option>
+                    </el-select>
                 </div>
                 <el-button type="primary" @click="translate" :loading="translate_loading">翻译</el-button>
             </el-col>
@@ -88,6 +88,12 @@
                                 label="原文语种"
                                 width="120">
                         </el-table-column>
+                        <el-table-column
+                                prop="translate_language_zh"
+                                label="译文语种"
+                                width="120">
+                        </el-table-column>
+
                     </el-table>
                 </el-col>
 
@@ -174,7 +180,7 @@
                         original_text: this.original,
                         translate_text: this.translation,
                         original_language: this.language_ori,
-                        translate_language: 'zh',
+                        translate_language: this.language_tra,
                     })
                 }).then(() => {
                     this.translate_loading = false

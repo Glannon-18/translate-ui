@@ -55,8 +55,8 @@
                     if (valid) {
                         this.loading = true
                         this.postRequest("/doLogin", {
-                            username: this.form.username,
-                            password: this.form.password
+                            username: this.form.username.trim(),
+                            password: this.form.password.trim()
                         }).then(response => {
                             if (response) {
                                 if (response.data.status == 500) {

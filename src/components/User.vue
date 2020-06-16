@@ -70,6 +70,10 @@
                 <el-form-item label="手机号码" :label-width="formLabelWidth" prop="phone">
                     <el-input v-model="form.phone" autocomplete="off"></el-input>
                 </el-form-item>
+
+                <el-form-item label="密码" :label-width="formLabelWidth" prop="password">
+                    <el-input v-model="form.password" autocomplete="off" type="password"></el-input>
+                </el-form-item>
                 <el-form-item>
                     <el-checkbox-group v-model="roleIds">
                         <el-checkbox v-for="r in roles" :label="r.id" :key="r.id">{{r.nameZh}}</el-checkbox>
@@ -105,7 +109,8 @@
                 form: {
                     account: "",
                     username: "",
-                    phone: ""
+                    phone: "",
+                    password: ""
                 },
                 rules: {
                     account: [{required: true, message: '请输入登录账号名', trigger: 'blur'}
@@ -134,12 +139,34 @@
                                 if (/^1[34578]\d{9}$/.test(value) == false) {
                                     callback(new Error("请输入正确的手机号"));
                                 } else {
-                                    callback();
+                                    callback()
                                 }
                             }, trigger: 'blur'
                         }
 
-                    ]
+                    ],
+                    password: [{
+                        validator: (rule, value, callback) => {
+                            if (this.dialogUserId == '') {
+                                if (/[a-zA-Z1-9]{6,10}/.test(value) == false) {
+                                    callback(new Error("密码必须是6至10位字符或者数字"));
+                                }else {
+                                    callback()
+                                }
+                            } else {
+                                if (value.trim() != '') {
+                                    if (/[a-zA-Z1-9]{6,10}/.test(value) == false) {
+                                        callback(new Error("密码必须是6至10位字符或者数字"));
+                                    } else {
+                                        callback()
+                                    }
+                                } else {
+                                    callback()
+                                }
+                            }
+                        }, trigger: 'blur'
+
+                    }]
                 },
                 dialogFormVisible: false,
                 formLabelWidth: '120px',
@@ -183,10 +210,12 @@
             sub() {
                 if (this.dialogUserId == '') {
                     this.$refs.userForm.validate(valid => {
+                        console.log(valid)
                         if (valid) {
                             this.postRequest("/user/", {
-                                account: this.form.account,
-                                username: this.form.username,
+                                account: this.form.account.trim(),
+                                username: this.form.username.trim(),
+                                password: this.form.password.trim(),
                                 phone: this.form.phone,
                                 roles: this.roleIds
                             }).then(() => {
@@ -199,9 +228,10 @@
                     this.$refs.userForm.validate(valid => {
                         if (valid) {
                             this.putRequest("/user/" + this.dialogUserId, {
-                                account: this.form.account,
-                                username: this.form.username,
-                                phone: this.form.phone,
+                                account: this.form.account.trim(),
+                                username: this.form.username.trim(),
+                                phone: this.form.phone.trim(),
+                                password: this.form.password.trim(),
                                 roles: this.roleIds
                             }).then(() => {
                                 this.dialogFormVisible = false

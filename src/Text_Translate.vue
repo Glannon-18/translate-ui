@@ -22,13 +22,23 @@
             </el-main>
 
         </el-container>
-        <el-dialog title="新建文本任务" :visible.sync="dialogFormVisible" width="30%">
+        <el-dialog title="新建文本任务" :visible.sync="dialogFormVisible" width="30%" @close="reset">
             <el-form :model="form" :rules="rules" ref="post_text_task">
                 <el-form-item label="任务名称" :label-width="formLabelWidth" prop="name">
                     <el-input v-model="form.name" autocomplete="off"></el-input>
                 </el-form-item>
-                <el-form-item label="选择语种" :label-width="formLabelWidth" prop="language">
+                <el-form-item label="选择原文语种" :label-width="formLabelWidth" prop="language">
                     <el-select v-model="form.language" placeholder="请选择原文语种">
+                        <el-option label="中文" value="zh"></el-option>
+                        <el-option label="越南文" value="vi"></el-option>
+                        <el-option label="泰文" value="th"></el-option>
+                        <el-option label="英文" value="en"></el-option>
+                    </el-select>
+                </el-form-item>
+
+                <el-form-item label="选择译文语种" :label-width="formLabelWidth" prop="language_tra">
+                    <el-select v-model="form.language_tra" placeholder="请选择译文语种">
+                        <el-option label="中文" value="zh"></el-option>
                         <el-option label="越南文" value="vi"></el-option>
                         <el-option label="泰文" value="th"></el-option>
                         <el-option label="英文" value="en"></el-option>
@@ -37,12 +47,12 @@
 
 
                 <el-form-item label="文件上传" :label-width="formLabelWidth">
-                    <el-upload accept=".txt"
+                    <el-upload accept=".txt,.docx"
                                name="multipartFile"
                                action="/annexe_task/upload"
                                :on-success="success"
                                :on-remove="remove"
-                               :limit="9"
+                               :limit="10"
                                multiple
                                ref="fileUpload"
                     >
@@ -76,6 +86,7 @@
                 form: {
                     name: "",
                     language: "",
+                    language_tra: ""
                 },
                 dialogFormVisible: false,
                 formLabelWidth: '120px',
@@ -83,6 +94,7 @@
                 , rules: {
                     name: [{required: true, message: '请输任务名称', trigger: 'blur'}],
                     language: [{required: true, message: '请选择原文语言', trigger: 'blur'}],
+                    language_tra: [{required: true, message: '请选择译文语言', trigger: 'blur'}],
                 }
             }
         }, methods: {
@@ -123,16 +135,21 @@
                         this.postRequest("/annexe_task/", {
                             name: this.form.name,
                             language: this.form.language,
+                            language_tra: this.form.language_tra,
                             filePaths: fileList
                         }).then(() => {
                             this.dialogFormVisible = false
-                            this.$refs.post_text_task.resetFields()
-                            this.$refs.fileUpload.clearFiles()
-                            this.$refs.at.$el.click()
+                            this.reset()
                         })
                     }
 
                 })
+            },
+            reset() {
+                this.$refs.post_text_task.resetFields()
+                this.$refs.fileUpload.clearFiles()
+                this.$refs.at.$el.click()
+                this.returnPaths = []
             }
         },
         components: {
