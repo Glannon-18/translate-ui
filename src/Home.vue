@@ -402,7 +402,7 @@
                             type: 'pie', //环形图的type和饼图相同
                             radius: ['50%', '70%'],//饼图的半径，第一个为内半径，第二个为外半径
                             avoidLabelOverlap: false,
-                            color: ['#76d8f6', '#f56969', '#a18cff'],
+                            color: ['#76d8f6', '#f56969', '#a18cff','#48d1cc'],
                             label: {
                                 normal: {  //正常的样式
                                     show: true,

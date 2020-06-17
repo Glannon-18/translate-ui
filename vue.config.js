@@ -1,3 +1,4 @@
+// let path=require("path")
 let proxyObj = {};
 const CompressionPlugin = require("compression-webpack-plugin");
 proxyObj['/ws'] = {
@@ -13,6 +14,8 @@ proxyObj['/'] = {
     }
 }
 module.exports = {
+    // outputDir:path.resolve(__dirname,"dist"),
+    // publicPath:'/translate-ui/dist/',
     devServer: {
         host: 'localhost',
         port: 8081,

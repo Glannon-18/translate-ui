@@ -11,7 +11,6 @@ export default new Vuex.Store({
     },
     getters: {},
     mutations: {
-
         recordLogin(state, user) {
             // console.log("recordLogin调用")
             state.currentUser = user
@@ -21,7 +20,6 @@ export default new Vuex.Store({
         clearLogout(state) {
             state.currentUser = {}
         }
-
     },
     actions: {}
 
