@@ -9,8 +9,8 @@
             </el-form-item>
             <el-form-item label="源语言" :label-width="formLabelWidth" prop="source_language">
                 <el-select v-model="form.source_language" placeholder="请选择源语言">
-                    <el-option label="越南文中文" value="zh"></el-option>
-                    <el-option label="" value="vi"></el-option>
+                    <el-option label="中文" value="zh"></el-option>
+                    <el-option label="越南文" value="vi"></el-option>
                     <el-option label="泰文" value="th"></el-option>
                     <el-option label="英文" value="en"></el-option>
                 </el-select>
