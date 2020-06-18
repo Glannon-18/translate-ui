@@ -45,10 +45,10 @@ export default new VueRouter({
                     }
                     ]
                 }
-                , {
-                    path: "folder_translate",
-                    component: () => import("../Folder_Translate")
-                }
+                // , {
+                //     path: "folder_translate",
+                //     component: () => import("../Folder_Translate")
+                // }
                 , {
                     path: "system_management",
                     component: () => import("../System_Management"),
