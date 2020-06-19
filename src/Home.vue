@@ -160,7 +160,12 @@
                 type: this.fourth_time
             }).then(resp => {
                 let data = resp.data.obj
-                this.drawpie(data)
+                let colors=[]
+                data.forEach(d => {
+                    colors.push(d.color)
+                    delete d.color
+                })
+                this.drawpie(data,colors)
             })
         },
         name: "Home",
@@ -178,6 +183,14 @@
                 third_loading: true,
                 fourth_tableData: [],
                 pie_date: []
+            }
+        },
+        getter: {
+            pie_color() {
+
+
+
+                return []
             }
         },
         methods: {
@@ -234,7 +247,12 @@
                     type: this.fourth_time
                 }).then(resp => {
                     let data = resp.data.obj
-                    this.drawpie(data)
+                    let colors=[]
+                    data.forEach(d => {
+                        colors.push(d.color)
+                        delete d.color
+                    })
+                    this.drawpie(data,colors)
                 })
 
             }
@@ -385,7 +403,7 @@
                 }
                 myChart.setOption(option)
             },
-            drawpie(data) {
+            drawpie(data,colors) {
                 let myChart = this.$echarts.init(document.getElementById('pie'));
                 let option = {
                     tooltip: {//提示框，可以在全局也可以在
@@ -402,7 +420,7 @@
                             type: 'pie', //环形图的type和饼图相同
                             radius: ['50%', '70%'],//饼图的半径，第一个为内半径，第二个为外半径
                             avoidLabelOverlap: false,
-                            color: ['#76d8f6', '#f56969', '#a18cff','#48d1cc'],
+                            color: colors,
                             label: {
                                 normal: {  //正常的样式
                                     show: true,
