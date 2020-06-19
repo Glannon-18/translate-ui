@@ -57,7 +57,7 @@
                                ref="fileUpload"
                     >
                         <el-button size="small" type="primary">点击上传</el-button>
-                        <div slot="tip">只能上传txt格式文件</div>
+                        <div slot="tip">只能上传txt，docx格式文件</div>
                     </el-upload>
                 </el-form-item>
             </el-form>
