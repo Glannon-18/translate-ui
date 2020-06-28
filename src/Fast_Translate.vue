@@ -187,6 +187,8 @@
                     return this.getRequest("/fast_task/", {})
                 }).then(resp => {
                     this.history = resp.data.obj
+                }).catch(()=>{
+                    this.translate_loading=false
                 })
 
             },
