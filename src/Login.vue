@@ -3,7 +3,7 @@
         <div class="container" :style="style">
             <div class="login">
                 <div class="head">
-                    <span>译畅速译系统</span>
+                    <span>在线翻译系统</span>
                 </div>
                 <div class="form">
                     <el-form :model="form" ref="loginForm" :rules="rules">
@@ -13,8 +13,21 @@
                         </el-form-item>
                         <el-form-item prop="password">
                             <el-input type="password" prefix-icon="el-icon-lock" size="medium" placeholder="请输入密码"
-                                      v-model="form.password" @keyup.enter.native="login"
+                                      v-model="form.password"
                                       show-password></el-input>
+                        </el-form-item>
+                        <el-form-item prop="code">
+                            <el-row :gutter="18">
+                                <el-col :span="16">
+                                    <el-input placeholder="请输入验证码" v-model="form.code" @keyup.enter.native="login"></el-input>
+                                </el-col>
+
+                                <el-col :span="8">
+                                    <img :src="vcUrl" @click="updateVerifyCode" fit="cover"/>
+                                </el-col>
+                            </el-row>
+
+
                         </el-form-item>
                         <el-form-item>
                             <el-button type="primary" size="medium" style="width: 100%" @click="login">登陆</el-button>
@@ -41,12 +54,15 @@
                 loading: false,
                 form: {
                     username: "",
-                    password: ""
+                    password: "",
+                    code:""
                 },
                 rules: {
                     username: [{required: true, message: '请输入用户名', trigger: 'blur'}],
                     password: [{required: true, message: '请输入密码', trigger: 'blur'}],
-                }
+                    code: [{required: true, message: '请输入验证码', trigger: 'blur'}],
+                },
+                vcUrl: '/user/verifyCode?time=' + new Date(),
             }
         },
         methods: {
@@ -56,7 +72,8 @@
                         this.loading = true
                         this.postRequest("/doLogin", {
                             username: this.form.username.trim(),
-                            password: this.form.password.trim()
+                            password: this.form.password.trim(),
+                            code:this.form.code.trim()
                         }).then(response => {
                             if (response) {
                                 if (response.data.status == 500) {
@@ -72,6 +89,10 @@
                         return;
                     }
                 })
+            },
+
+            updateVerifyCode() {
+                this.vcUrl = '/user/verifyCode?time=' + new Date();
             },
 
             ...mapMutations(['recordLogin'])

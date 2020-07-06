@@ -160,12 +160,12 @@
                 type: this.fourth_time
             }).then(resp => {
                 let data = resp.data.obj
-                let colors=[]
+                let colors = []
                 data.forEach(d => {
                     colors.push(d.color)
                     delete d.color
                 })
-                this.drawpie(data,colors)
+                this.drawpie(data, colors)
             })
         },
         name: "Home",
@@ -187,7 +187,6 @@
         },
         getter: {
             pie_color() {
-
 
 
                 return []
@@ -247,12 +246,12 @@
                     type: this.fourth_time
                 }).then(resp => {
                     let data = resp.data.obj
-                    let colors=[]
+                    let colors = []
                     data.forEach(d => {
                         colors.push(d.color)
                         delete d.color
                     })
-                    this.drawpie(data,colors)
+                    this.drawpie(data, colors)
                 })
 
             }
@@ -403,7 +402,7 @@
                 }
                 myChart.setOption(option)
             },
-            drawpie(data,colors) {
+            drawpie(data, colors) {
                 let myChart = this.$echarts.init(document.getElementById('pie'));
                 let option = {
                     tooltip: {//提示框，可以在全局也可以在

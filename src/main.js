@@ -21,6 +21,7 @@ import {
     Tree,
     Pagination,
     Badge,
+    Image,
     Loading,
     MessageBox,
     Message,
@@ -103,6 +104,7 @@ Vue.use(Form);
 Vue.use(Tag);
 Vue.use(Avatar);
 Vue.use(ButtonGroup)
+Vue.use(Image)
 Vue.prototype.$alert = MessageBox.alert
 Vue.prototype.$confirm = MessageBox.confirm
 Vue.prototype.$message = Message
