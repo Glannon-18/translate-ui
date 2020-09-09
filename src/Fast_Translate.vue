@@ -12,19 +12,19 @@
                         </el-option>
                     </el-select>
 
-                    <el-select v-model="language_tra" placeholder="请选择翻译语言">
-                        <el-option
-                                v-for="item in options"
-                                :key="item.value"
-                                :label="item.label"
-                                :value="item.value">
-                        </el-option>
-                    </el-select>
+<!--                    <el-select v-model="language_tra" placeholder="请选择翻译语言">-->
+<!--                        <el-option-->
+<!--                                v-for="item in options"-->
+<!--                                :key="item.value"-->
+<!--                                :label="item.label"-->
+<!--                                :value="item.value">-->
+<!--                        </el-option>-->
+<!--                    </el-select>-->
                 </div>
                 <el-button type="primary" @click="translate" :loading="translate_loading">翻译</el-button>
             </el-col>
             <el-col :span="12" style="display: flex;justify-content: flex-end">
-                <el-button type="primary" icon="el-icon-document-copy">复制</el-button>
+                <el-button type="primary" icon="el-icon-document-copy" @click="copy(translation)">复制</el-button>
                 <el-button type="primary" icon="el-icon-upload2" @click="export_txt">导出</el-button>
             </el-col>
 
@@ -34,9 +34,11 @@
 
                 <el-input
                         type="textarea" :rows="13"
-                        placeholder="输入或者粘贴文本进行翻译，最多支持3000字符"
+                        dir="rtl"
+                        style="text-align:right"
+                        placeholder="输入或者粘贴文本进行翻译，最多支持1500字符"
                         v-model="original"
-                        maxlength="3000"
+                        maxlength="1500"
                         show-word-limit
                         resize="none"
                 >
@@ -46,7 +48,7 @@
                 <el-input :rows="13"
                           type="textarea"
                           v-model="translation"
-                          maxlength="3000"
+                          maxlength="1500"
                           show-word-limit
                           resize="none" readonly
                 >
@@ -59,7 +61,7 @@
             <el-col :span="4">历史记录</el-col>
             <el-col :span="20" style="display: flex;justify-content: flex-end">
                 <el-button type="primary" icon="el-icon-arrow-down" @click="show_more">隐藏</el-button>
-                <el-button type="primary" icon="el-icon-more">查看更多</el-button>
+<!--                <el-button type="primary" icon="el-icon-more">查看更多</el-button>-->
             </el-col>
         </el-row>
         <transition name="el-zoom-in-top">
@@ -116,19 +118,16 @@
         data() {
             return {
                 options: [{
-                    value: 'en',
-                    label: '英文'
+                    value: 'ur',
+                    label: '乌尔都语'
                 }, {
-                    value: 'vi',
-                    label: '越南文'
+                    value: 'ps',
+                    label: '普什图语'
                 }, {
-                    value: 'th',
-                    label: '泰文'
+                    value: 'uy',
+                    label: '维吾尔语'
                 },
-                    {
-                        value: 'zh',
-                        label: '中文'
-                    },
+
                 ],
                 language_ori: '',
                 language_tra: "",
@@ -143,7 +142,6 @@
         methods: {
             export_txt() {
                 if (this.translation.trim().length == 0) {
-
                     this.$message.warning("没有文本可以下载!")
                     return
                 }
@@ -165,7 +163,7 @@
             }
             ,
             translate() {
-                if (this.language_ori.trim() == '' || this.original.trim() == '' || this.language_tra.trim() == '') {
+                if (this.language_ori.trim() == '' || this.original.trim() == '') {
                     this.$message.warning("请选择语言并且输入原文")
                     return
                 }
@@ -173,14 +171,14 @@
                 this.postKeyValueRequest("/fast_task/translate", {
                     text: this.original,
                     srcLang: this.language_ori,
-                    tgtLang: this.language_tra,
+                    tgtLang: "zh",
                 }).then(data => {
                     this.translation = data.data.obj.tr
                     return this.postRequest('/fast_task/', {
                         original_text: this.original,
                         translate_text: this.translation,
                         original_language: this.language_ori,
-                        translate_language: this.language_tra,
+                        translate_language: "zh",
                     })
                 }).then(() => {
                     this.translate_loading = false
@@ -204,6 +202,19 @@
                 link.setAttribute('download', 'translation.txt')
                 document.body.appendChild(link)
                 link.click()
+            },
+            copy(data) {
+                let url = data
+                let oInput = document.createElement('input')
+                oInput.value = url
+                document.body.appendChild(oInput)
+                oInput.select() // 选择对象
+                document.execCommand("Copy") // 执行浏览器复制命令
+                this.$message({
+                    message: '复制成功',
+                    type: 'success'
+                })
+                oInput.remove()
             }
 
         }

@@ -16,19 +16,19 @@
                                       v-model="form.password"
                                       show-password></el-input>
                         </el-form-item>
-                        <el-form-item prop="code">
-                            <el-row :gutter="18">
-                                <el-col :span="16">
-                                    <el-input placeholder="请输入验证码" v-model="form.code" @keyup.enter.native="login"></el-input>
-                                </el-col>
+<!--                        <el-form-item prop="code">-->
+<!--                            <el-row :gutter="18">-->
+<!--                                <el-col :span="16">-->
+<!--                                    <el-input placeholder="请输入验证码" v-model="form.code" @keyup.enter.native="login"></el-input>-->
+<!--                                </el-col>-->
 
-                                <el-col :span="8">
-                                    <img :src="vcUrl" @click="updateVerifyCode" fit="cover"/>
-                                </el-col>
-                            </el-row>
+<!--                                <el-col :span="8">-->
+<!--                                    <img :src="vcUrl" @click="updateVerifyCode" fit="cover"/>-->
+<!--                                </el-col>-->
+<!--                            </el-row>-->
 
 
-                        </el-form-item>
+<!--                        </el-form-item>-->
                         <el-form-item>
                             <el-button type="primary" size="medium" style="width: 100%" @click="login">登陆</el-button>
                         </el-form-item>
@@ -55,12 +55,12 @@
                 form: {
                     username: "",
                     password: "",
-                    code:""
+                    // code:""
                 },
                 rules: {
                     username: [{required: true, message: '请输入用户名', trigger: 'blur'}],
                     password: [{required: true, message: '请输入密码', trigger: 'blur'}],
-                    code: [{required: true, message: '请输入验证码', trigger: 'blur'}],
+                    // code: [{required: true, message: '请输入验证码', trigger: 'blur'}],
                 },
                 vcUrl: '/user/verifyCode?time=' + new Date(),
             }
@@ -73,7 +73,7 @@
                         this.postRequest("/doLogin", {
                             username: this.form.username.trim(),
                             password: this.form.password.trim(),
-                            code:this.form.code.trim()
+                            // code:this.form.code.trim()
                         }).then(response => {
                             if (response) {
                                 if (response.data.status == 500) {

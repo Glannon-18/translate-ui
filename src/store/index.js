@@ -14,7 +14,6 @@ export default new Vuex.Store({
         recordLogin(state, user) {
             // console.log("recordLogin调用")
             state.currentUser = user
-            console.log(this.state.currentUser)
         },
 
         clearLogout(state) {

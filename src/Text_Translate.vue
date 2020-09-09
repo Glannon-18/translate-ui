@@ -29,21 +29,20 @@
                 </el-form-item>
                 <el-form-item label="选择原文语种" :label-width="formLabelWidth" prop="language">
                     <el-select v-model="form.language" placeholder="请选择原文语种">
-                        <el-option label="中文" value="zh"></el-option>
-                        <el-option label="越南文" value="vi"></el-option>
-                        <el-option label="泰文" value="th"></el-option>
-                        <el-option label="英文" value="en"></el-option>
+                        <el-option label="乌尔都语" value="ur"></el-option>
+                        <el-option label="普什图语" value="ps"></el-option>
+                        <el-option label="维吾尔语" value="uy"></el-option>
                     </el-select>
                 </el-form-item>
 
-                <el-form-item label="选择译文语种" :label-width="formLabelWidth" prop="language_tra">
-                    <el-select v-model="form.language_tra" placeholder="请选择译文语种">
-                        <el-option label="中文" value="zh"></el-option>
-                        <el-option label="越南文" value="vi"></el-option>
-                        <el-option label="泰文" value="th"></el-option>
-                        <el-option label="英文" value="en"></el-option>
-                    </el-select>
-                </el-form-item>
+<!--                <el-form-item label="选择译文语种" :label-width="formLabelWidth" prop="language_tra">-->
+<!--                    <el-select v-model="form.language_tra" placeholder="请选择译文语种">-->
+<!--                        <el-option label="中文" value="zh"></el-option>-->
+<!--                        <el-option label="越南文" value="vi"></el-option>-->
+<!--                        <el-option label="泰文" value="th"></el-option>-->
+<!--                        <el-option label="英文" value="en"></el-option>-->
+<!--                    </el-select>-->
+<!--                </el-form-item>-->
 
 
                 <el-form-item label="文件上传" :label-width="formLabelWidth">
@@ -86,7 +85,7 @@
                 form: {
                     name: "",
                     language: "",
-                    language_tra: ""
+                    // language_tra: ""
                 },
                 dialogFormVisible: false,
                 formLabelWidth: '120px',
@@ -94,7 +93,7 @@
                 , rules: {
                     name: [{required: true, message: '请输任务名称', trigger: 'blur'}],
                     language: [{required: true, message: '请选择原文语言', trigger: 'blur'}],
-                    language_tra: [{required: true, message: '请选择译文语言', trigger: 'blur'}],
+                    // language_tra: [{required: true, message: '请选择译文语言', trigger: 'blur'}],
                 }
             }
         }, methods: {
@@ -135,7 +134,7 @@
                         this.postRequest("/annexe_task/", {
                             name: this.form.name,
                             language: this.form.language,
-                            language_tra: this.form.language_tra,
+                            language_tra: "zh",
                             filePaths: fileList
                         }).then(() => {
                             this.dialogFormVisible = false

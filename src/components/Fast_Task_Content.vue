@@ -15,7 +15,7 @@
             >
             </el-input>
         </div>
-        <el-button type="primary" @click="sub">导出译文</el-button>
+<!--        <el-button type="primary" @click="sub">导出译文</el-button>-->
     </div>
 
 </template>
