@@ -27,11 +27,14 @@
                 <el-form-item label="任务名称" :label-width="formLabelWidth" prop="name">
                     <el-input v-model="form.name" autocomplete="off"></el-input>
                 </el-form-item>
-                <el-form-item label="选择原文语种" :label-width="formLabelWidth" prop="language">
-                    <el-select v-model="form.language" placeholder="请选择原文语种">
-                        <el-option label="乌尔都语" value="ur"></el-option>
-                        <el-option label="普什图语" value="ps"></el-option>
-                        <el-option label="维吾尔语" value="uy"></el-option>
+                <el-form-item label="选择译文语种" :label-width="formLabelWidth" prop="language">
+                    <el-select v-model="form.language" placeholder="请选译文语种">
+<!--                        <el-option label="乌尔都语" value="ur"></el-option>-->
+<!--                        <el-option label="普什图语" value="ps"></el-option>-->
+<!--                        <el-option label="维吾尔语" value="uy"></el-option>-->
+
+                        <el-option label="英文" value="en"></el-option>
+                        <el-option label="越南文" value="vi"></el-option>
                     </el-select>
                 </el-form-item>
 
@@ -56,7 +59,7 @@
                                ref="fileUpload"
                     >
                         <el-button size="small" type="primary">点击上传</el-button>
-                        <div slot="tip">只能上传txt，docx格式文件</div>
+                        <div slot="tip">只能上传txt，docx格式文件，单个文件大小不超过20MB</div>
                     </el-upload>
                 </el-form-item>
             </el-form>

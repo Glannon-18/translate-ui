@@ -3,7 +3,7 @@
         <el-row>
             <el-col :span="12" style="display: flex;justify-content: space-between">
                 <div>
-                    <el-select v-model="language_ori" placeholder="请选择原文语言" style="margin-right: 10px">
+                    <el-select v-model="language_ori" placeholder="请选择译文" style="margin-right: 10px">
                         <el-option
                                 v-for="item in options"
                                 :key="item.value"
@@ -12,14 +12,14 @@
                         </el-option>
                     </el-select>
 
-<!--                    <el-select v-model="language_tra" placeholder="请选择翻译语言">-->
-<!--                        <el-option-->
-<!--                                v-for="item in options"-->
-<!--                                :key="item.value"-->
-<!--                                :label="item.label"-->
-<!--                                :value="item.value">-->
-<!--                        </el-option>-->
-<!--                    </el-select>-->
+                    <!--                    <el-select v-model="language_tra" placeholder="请选择翻译语言">-->
+                    <!--                        <el-option-->
+                    <!--                                v-for="item in options"-->
+                    <!--                                :key="item.value"-->
+                    <!--                                :label="item.label"-->
+                    <!--                                :value="item.value">-->
+                    <!--                        </el-option>-->
+                    <!--                    </el-select>-->
                 </div>
                 <el-button type="primary" @click="translate" :loading="translate_loading">翻译</el-button>
             </el-col>
@@ -34,7 +34,6 @@
 
                 <el-input
                         type="textarea" :rows="13"
-                        dir="rtl"
                         style="text-align:right"
                         placeholder="输入或者粘贴文本进行翻译，最多支持1500字符"
                         v-model="original"
@@ -61,7 +60,7 @@
             <el-col :span="4">历史记录</el-col>
             <el-col :span="20" style="display: flex;justify-content: flex-end">
                 <el-button type="primary" icon="el-icon-arrow-down" @click="show_more">隐藏</el-button>
-<!--                <el-button type="primary" icon="el-icon-more">查看更多</el-button>-->
+                <!--                <el-button type="primary" icon="el-icon-more">查看更多</el-button>-->
             </el-col>
         </el-row>
         <transition name="el-zoom-in-top">
@@ -117,16 +116,25 @@
         },
         data() {
             return {
-                options: [{
-                    value: 'ur',
-                    label: '乌尔都语'
-                }, {
-                    value: 'ps',
-                    label: '普什图语'
-                }, {
-                    value: 'uy',
-                    label: '维吾尔语'
-                },
+                options: [
+                    //     {
+                    //     value: 'ur',
+                    //     label: '乌尔都语'
+                    // }, {
+                    //     value: 'ps',
+                    //     label: '普什图语'
+                    // }, {
+                    //     value: 'uy',
+                    //     label: '维吾尔语'
+                    // },
+
+                    {
+                        value: 'en',
+                        label: '英文'
+                    }, {
+                        value: 'vi',
+                        label: '越南文'
+                    }
 
                 ],
                 language_ori: '',
@@ -185,8 +193,8 @@
                     return this.getRequest("/fast_task/", {})
                 }).then(resp => {
                     this.history = resp.data.obj
-                }).catch(()=>{
-                    this.translate_loading=false
+                }).catch(() => {
+                    this.translate_loading = false
                 })
 
             },

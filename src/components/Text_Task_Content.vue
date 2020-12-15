@@ -66,8 +66,8 @@
             })]).then(
                 axios.spread((first, second) => {
                     this.name = first.data.obj.name
-                    this.original_language_zh=first.data.obj.original_language_zh
-                    this.translate_language_zh=first.data.obj.translate_language_zh
+                    this.original_language_zh = first.data.obj.original_language_zh
+                    this.translate_language_zh = first.data.obj.translate_language_zh
                     this.currentPage = 1
                     this.total = second.data.total
                     this.pageSize = second.data.pageSize
@@ -114,7 +114,14 @@
                     },
                     responseType: 'blob'
                 }).then(resp => {
-                    this.download(resp.data)
+
+                    // let type = resp.headers["content-type"]
+                    // console.log(type)
+                    // if (type == "application/json") {
+                    //     this.$message.error(resp.data.msg)
+                    // } else {
+                        this.download(resp.data)
+                    // }
                 })
 
             },
@@ -159,7 +166,7 @@
                 let link = document.createElement('a')
                 link.style.display = 'none'
                 link.href = url
-                link.setAttribute('download', 'a.zip')
+                link.setAttribute('download', 'download.zip')
                 document.body.appendChild(link)
                 link.click()
             }
