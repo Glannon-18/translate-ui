@@ -35,9 +35,9 @@
                 <el-input
                         type="textarea" :rows="13"
                         style="text-align:right"
-                        placeholder="输入或者粘贴文本进行翻译，最多支持1500字符"
+                        placeholder="输入或者粘贴文本进行翻译"
                         v-model="original"
-                        maxlength="1500"
+                        maxlength="10000"
                         show-word-limit
                         resize="none"
                 >
