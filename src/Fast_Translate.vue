@@ -3,23 +3,23 @@
         <el-row>
             <el-col :span="12" style="display: flex;justify-content: space-between">
                 <div>
-                    <el-select v-model="language_ori" placeholder="请选择译文" style="margin-right: 10px">
+                    <el-select v-model="language_ori" placeholder="请选择原文" style="margin-right: 10px">
                         <el-option
-                                v-for="item in options"
+                                v-for="item in language"
                                 :key="item.value"
                                 :label="item.label"
                                 :value="item.value">
                         </el-option>
                     </el-select>
 
-                    <!--                    <el-select v-model="language_tra" placeholder="请选择翻译语言">-->
-                    <!--                        <el-option-->
-                    <!--                                v-for="item in options"-->
-                    <!--                                :key="item.value"-->
-                    <!--                                :label="item.label"-->
-                    <!--                                :value="item.value">-->
-                    <!--                        </el-option>-->
-                    <!--                    </el-select>-->
+                    <el-select v-model="language_tra" placeholder="请选择译文" style="margin-right: 10px">
+                        <el-option
+                                v-for="item in language"
+                                :key="item.value"
+                                :label="item.label"
+                                :value="item.value">
+                        </el-option>
+                    </el-select>
                 </div>
                 <el-button type="primary" @click="translate" :loading="translate_loading">翻译</el-button>
             </el-col>
@@ -106,6 +106,7 @@
 <script>
 
     import axios from "axios"
+    import { mapState } from "vuex";
 
     export default {
         name: "Fast_Translate",
@@ -116,35 +117,18 @@
         },
         data() {
             return {
-                options: [
-                    //     {
-                    //     value: 'ur',
-                    //     label: '乌尔都语'
-                    // }, {
-                    //     value: 'ps',
-                    //     label: '普什图语'
-                    // }, {
-                    //     value: 'uy',
-                    //     label: '维吾尔语'
-                    // },
-
-                    {
-                        value: 'en',
-                        label: '英文'
-                    }, {
-                        value: 'vi',
-                        label: '越南文'
-                    }
-
-                ],
                 language_ori: '',
-                language_tra: "",
+                language_tra: '',
                 original: '',
                 translation: '',
                 history_show: false,
                 history: [],
                 translate_loading: false,
             }
+        },
+        computed:{
+            ...mapState(['language'])
+
         }
         ,
         methods: {
@@ -178,15 +162,15 @@
                 this.translate_loading = true
                 this.postKeyValueRequest("/fast_task/translate", {
                     text: this.original,
+                    tgtLang: this.language_tra,
                     srcLang: this.language_ori,
-                    tgtLang: "zh",
                 }).then(data => {
                     this.translation = data.data.obj.tr
                     return this.postRequest('/fast_task/', {
                         original_text: this.original,
                         translate_text: this.translation,
                         original_language: this.language_ori,
-                        translate_language: "zh",
+                        translate_language: this.language_tra,
                     })
                 }).then(() => {
                     this.translate_loading = false

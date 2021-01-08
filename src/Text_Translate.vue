@@ -27,26 +27,29 @@
                 <el-form-item label="任务名称" :label-width="formLabelWidth" prop="name">
                     <el-input v-model="form.name" autocomplete="off"></el-input>
                 </el-form-item>
-                <el-form-item label="选择译文语种" :label-width="formLabelWidth" prop="language">
-                    <el-select v-model="form.language" placeholder="请选译文语种">
-<!--                        <el-option label="乌尔都语" value="ur"></el-option>-->
-<!--                        <el-option label="普什图语" value="ps"></el-option>-->
-<!--                        <el-option label="维吾尔语" value="uy"></el-option>-->
+                <el-form-item label="选择原文语种" :label-width="formLabelWidth" prop="language">
+                    <el-select v-model="form.language" placeholder="">
 
-                        <el-option label="英文" value="en"></el-option>
-                        <el-option label="越南文" value="vi"></el-option>
+                        <el-option
+                                v-for="item in language"
+                                :key="item.value"
+                                :label="item.label"
+                                :value="item.value">
+                        </el-option>
                     </el-select>
                 </el-form-item>
 
-<!--                <el-form-item label="选择译文语种" :label-width="formLabelWidth" prop="language_tra">-->
-<!--                    <el-select v-model="form.language_tra" placeholder="请选择译文语种">-->
-<!--                        <el-option label="中文" value="zh"></el-option>-->
-<!--                        <el-option label="越南文" value="vi"></el-option>-->
-<!--                        <el-option label="泰文" value="th"></el-option>-->
-<!--                        <el-option label="英文" value="en"></el-option>-->
-<!--                    </el-select>-->
-<!--                </el-form-item>-->
+                <el-form-item label="选择译文语种" :label-width="formLabelWidth" prop="language">
+                    <el-select v-model="form.language_tra" placeholder="">
 
+                        <el-option
+                                v-for="item in language"
+                                :key="item.value"
+                                :label="item.label"
+                                :value="item.value">
+                        </el-option>
+                    </el-select>
+                </el-form-item>
 
                 <el-form-item label="文件上传" :label-width="formLabelWidth">
                     <el-upload accept=".txt,.docx"
@@ -73,6 +76,7 @@
 
 <script>
     import TaskList from "@/components/TaskList";
+    import {mapState} from "vuex";
 
 
     export default {
@@ -88,7 +92,7 @@
                 form: {
                     name: "",
                     language: "",
-                    // language_tra: ""
+                    language_tra: ""
                 },
                 dialogFormVisible: false,
                 formLabelWidth: '120px',
@@ -96,10 +100,15 @@
                 , rules: {
                     name: [{required: true, message: '请输任务名称', trigger: 'blur'}],
                     language: [{required: true, message: '请选择原文语言', trigger: 'blur'}],
-                    // language_tra: [{required: true, message: '请选择译文语言', trigger: 'blur'}],
+                    language_tra: [{required: true, message: '请选择译文语言', trigger: 'blur'}],
                 }
             }
-        }, methods: {
+        },
+        computed: {
+            ...mapState(['language'])
+
+        }
+        , methods: {
             getFast() {
                 this.dataType = 'fast'
                 this.getRequest("/fast_task/listByDate", {name: ""}).then(resp => {
