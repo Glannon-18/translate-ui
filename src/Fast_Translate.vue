@@ -3,7 +3,7 @@
         <el-row>
             <el-col :span="12" style="display: flex;justify-content: space-between">
                 <div>
-                    <el-select v-model="language_ori" placeholder="请选择译文" style="margin-right: 10px">
+                    <el-select v-model="language_ori" placeholder="请选择原文语言" style="margin-right: 10px">
                         <el-option
                                 v-for="item in options"
                                 :key="item.value"
@@ -11,21 +11,14 @@
                                 :value="item.value">
                         </el-option>
                     </el-select>
-
-                    <!--                    <el-select v-model="language_tra" placeholder="请选择翻译语言">-->
-                    <!--                        <el-option-->
-                    <!--                                v-for="item in options"-->
-                    <!--                                :key="item.value"-->
-                    <!--                                :label="item.label"-->
-                    <!--                                :value="item.value">-->
-                    <!--                        </el-option>-->
-                    <!--                    </el-select>-->
                 </div>
                 <el-button type="primary" @click="translate" :loading="translate_loading">翻译</el-button>
             </el-col>
             <el-col :span="12" style="display: flex;justify-content: flex-end">
+                <el-button type="primary" icon="el-icon-close" @click="clean">清空</el-button>
                 <el-button type="primary" icon="el-icon-document-copy" @click="copy(translation)">复制</el-button>
                 <el-button type="primary" icon="el-icon-upload2" @click="export_txt">导出</el-button>
+
             </el-col>
 
         </el-row>
@@ -33,7 +26,7 @@
             <el-col :span="12">
 
                 <el-input
-                        type="textarea" :rows="13"
+                        type="textarea" :rows="22"
                         style="text-align:right"
                         placeholder="输入或者粘贴文本进行翻译"
                         v-model="original"
@@ -44,7 +37,7 @@
                 </el-input>
             </el-col>
             <el-col :span="12">
-                <el-input :rows="13"
+                <el-input :rows="22"
                           type="textarea"
                           v-model="translation"
                           maxlength="1500"
@@ -117,16 +110,10 @@
         data() {
             return {
                 options: [
-                    //     {
-                    //     value: 'ur',
-                    //     label: '乌尔都语'
-                    // }, {
-                    //     value: 'ps',
-                    //     label: '普什图语'
-                    // }, {
-                    //     value: 'uy',
-                    //     label: '维吾尔语'
-                    // },
+                    {
+                        value: "auto",
+                        label: "自动识别"
+                    },
 
                     {
                         value: 'en',
@@ -137,7 +124,7 @@
                     }
 
                 ],
-                language_ori: '',
+                language_ori: 'auto',
                 language_tra: "",
                 original: '',
                 translation: '',
@@ -223,6 +210,11 @@
                     type: 'success'
                 })
                 oInput.remove()
+            }
+            ,
+            clean() {
+                this.original = ""
+                this.translation = ""
             }
 
         }
