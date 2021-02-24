@@ -5,16 +5,19 @@
             <div class="first_head">
                 <div>24小时</div>
                 <div>30天</div>
+                <div>全部</div>
             </div>
             <div class="data">
                 <div>文档接入量</div>
                 <div>{{Au24h}}</div>
                 <div>{{Au30d}}</div>
+                <div>{{AuAll}}</div>
             </div>
             <div class="data">
                 <div>文档处理量</div>
                 <div>{{Ap24h}}</div>
                 <div>{{Ap30d}}</div>
+                <div>{{ApAll}}</div>
             </div>
         </div>
         <div class="content">
@@ -28,6 +31,8 @@
                         <el-option label="30天" value="30d">
 
                         </el-option>
+
+                        <el-option label="全部" value="all"></el-option>
                     </el-select>
                 </div>
             </div>
@@ -45,6 +50,7 @@
                         </el-option>
                         <el-option label="30天" value="30d">
                         </el-option>
+                        <el-option label="全部" value="all"></el-option>
                     </el-select>
                 </div>
             </div>
@@ -94,6 +100,8 @@
                         <el-option label="24小时" value="24h">
                         </el-option>
                         <el-option label="30天" value="30d">
+                        </el-option>
+                        <el-option label="全部" value="all">
                         </el-option>
                     </el-select>
                 </div>
@@ -152,9 +160,7 @@
                 let x_string = data.x_string
                 let txt = data.txt
                 let word = data.word
-                let eml = data.eml
-                let pdf = data.pdf
-                this.drawLine(x_string, txt, pdf, word, eml)
+                this.drawLine(x_string, txt, word)
             })
             this.getRequest("/annexe_task/getLanguageShare", {
                 type: this.fourth_time
@@ -175,6 +181,10 @@
                 Au30d: "",
                 Ap24h: "",
                 Ap30d: "",
+
+                ApAll: "",
+                AuAll: "",
+
                 first_loading: true,
                 second_time: "24h",
                 third_time: "24h",
@@ -201,9 +211,7 @@
                     let x_string = data.x_string
                     let txt = data.txt
                     let word = data.word
-                    let eml = data.eml
-                    let pdf = data.pdf
-                    this.drawLine(x_string, txt, pdf, word, eml)
+                    this.drawLine(x_string, txt, word)
                 })
             },
 
@@ -215,6 +223,8 @@
                         this.Au30d = data.Au30d
                         this.Ap24h = data.Ap24h
                         this.Ap30d = data.Ap30d
+                        this.AuAll = data.AuAll
+                        this.ApAll = data.ApAll
                         this.first_loading = false
                     }
                 )
@@ -256,7 +266,7 @@
 
             }
             ,
-            drawLine(x_string, txt, pdf, word, eml) {
+            drawLine(x_string, txt, word) {
                 // 基于准备好的dom，初始化echarts实例
                 let myChart = this.$echarts.init(document.getElementById('annexe'))
                 // 绘制图表
@@ -271,7 +281,7 @@
                         },
                     },
                     legend: {
-                        data: ['word', 'pdf', "eml", "txt"]
+                        data: ['word', "txt"]
                     },
                     grid: {
                         left: '1%',
@@ -283,7 +293,6 @@
                         {
                             type: 'category',
                             boundaryGap: false,
-                            // data: ["1", "2", "3", "4", "5"]
                             data: x_string
                         }
                     ],
@@ -316,60 +325,7 @@
                             }, // 线条样式
                             symbolSize: 2,  // 折线点的大小
                             areaStyle: {normal: {}},
-                            // data: ["5", "2", "3", "4", "5"]
                             data: word
-                        },
-                        {
-                            name: 'pdf',
-                            type: 'line',
-                            smooth: true,
-                            itemStyle: {
-                                normal: { // 颜色渐变函数 前四个参数分别表示四个位置依次为左、下、右、上
-                                    color: new this.$echarts.graphic.LinearGradient(0, 0, 0, 1, [{
-                                            offset: 0, color: '#db97ff' // 0% 处的颜色
-                                        }, {
-                                            offset: 0.4, color: '#f5e4ff' // 100% 处的颜色
-                                        }, {
-                                            offset: 1, color: '#ffffff' // 100% 处的颜色
-                                        }]
-                                    ), // 背景渐变色
-                                    lineStyle: { // 系列级个性化折线样式
-                                        width: 3,
-                                        type: 'solid',
-                                        color: '#c94cff' // 折线的颜色
-                                    }
-                                }
-                            }, // 线条样式
-                            symbolSize: 2,  // 折线点的大小
-                            areaStyle: {normal: {}},
-                            // data: ["0", "0", "1", "1", "0"]
-                            data: pdf
-                        },
-                        {
-                            name: 'eml',
-                            type: 'line',
-                            smooth: true,
-                            itemStyle: {
-                                normal: { // 颜色渐变函数 前四个参数分别表示四个位置依次为左、下、右、上
-                                    color: new this.$echarts.graphic.LinearGradient(0, 0, 0, 1, [{
-                                            offset: 0, color: '#ff9797' // 0% 处的颜色
-                                        }, {
-                                            offset: 0.4, color: '#ffe4e4' // 100% 处的颜色
-                                        }, {
-                                            offset: 1, color: '#ffffff' // 100% 处的颜色
-                                        }]
-                                    ), // 背景渐变色
-                                    lineStyle: { // 系列级个性化折线样式
-                                        width: 3,
-                                        type: 'solid',
-                                        color: '#fc2d2d' // 折线的颜色
-                                    }
-                                }
-                            }, // 线条样式
-                            symbolSize: 2,  // 折线点的大小
-                            areaStyle: {normal: {}},
-                            // data: ["0", "1", "1", "2", "5"]
-                            data: eml
                         },
                         {
                             name: 'txt',
@@ -394,7 +350,6 @@
                             }, // 线条样式
                             symbolSize: 2,  // 折线点的大小
                             areaStyle: {normal: {}},
-                            // data: ["0", "0", "0", "1", "3"]
                             data: txt
                         }
                     ]
